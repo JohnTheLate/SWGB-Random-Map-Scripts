@@ -1,0 +1,273 @@
+/* ********* MOTHERLODE ********** */
+/* 03 JUL 01 */
+
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+  random_placement  /* note this is only currently valid entry */
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+start_random
+	percent_chance 40
+	#define KESSEL
+	percent_chance 30
+	#define NABOO_GRASS
+	percent_chance 30
+	#define REYTHA
+end_random
+
+if KESSEL
+	base_terrain SAND2
+elseif NABOO_GRASS
+	base_terrain GRASS1
+else
+	base_terrain GRASS4
+endif
+
+/* CREATE THE CARBON */
+
+create_land 
+{
+	if NABOO_GRASS
+		terrain_type	TREE_A
+	elseif REYTHA
+		terrain_type	TREE_D
+	else
+		terrain_type	ROCK_CARBON
+	endif
+	land_percent		60
+	left_border			20
+	right_border		20
+	top_border			20
+	bottom_border		20 
+	zone				16
+	border_fuzziness	90
+}
+
+/* CREATE THE POOL */
+
+create_land 
+{
+	terrain_type		WATER_SHALLOW
+	land_percent		5
+	left_border			40
+	right_border		40
+	top_border			40
+	bottom_border		40 
+	zone 15
+}
+
+create_player_lands 
+{            
+	if KESSEL
+		terrain_type					SAND2
+	elseif NABOO_GRASS
+		terrain_type					GRASS1
+	else           
+		terrain_type					GRASS4
+	endif
+	land_percent						30
+	base_size							7
+	zone 1
+	other_zone_avoidance_distance		5 
+	border_fuzziness					10
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+create_terrain WATER_ROUGH
+{
+	base_terrain WATER_SHALLOW
+	number_of_clumps               3
+	spacing_to_other_terrain_types 1
+	land_percent 2
+}
+
+create_terrain WATER_DEEP
+{
+	base_terrain WATER_ROUGH
+	number_of_clumps               6
+	spacing_to_other_terrain_types 5
+	land_percent 1
+}
+
+/* SECONDARY CARBON */
+
+if KESSEL
+	create_terrain ROCK_CARBON
+elseif NABOO_GRASS
+	create_terrain TREE_A
+else
+	create_terrain TREE_D
+endif
+{
+	if KESSEL
+		base_terrain				SAND2
+	elseif NABOO_GRASS
+		base_terrain				GRASS1
+	else
+		base_terrain				GRASS4
+	endif
+	spacing_to_other_terrain_types	5
+	land_percent					15
+	number_of_clumps				10
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+
+if KESSEL
+	create_terrain SAND_ROCK
+elseif NABOO_GRASS
+	create_terrain GRASS2
+else
+	create_terrain GRASS3
+endif
+{
+	if KESSEL
+		base_terrain				SAND2
+	elseif NABOO_GRASS
+		base_terrain				GRASS1
+	else
+		base_terrain				GRASS4
+	endif
+	number_of_clumps				8
+	spacing_to_other_terrain_types	1
+	land_percent					9
+	set_scale_by_size
+}
+
+/* SECONDARY PATCH */
+
+if KESSEL
+	create_terrain SAND1
+else
+	create_terrain DIRT1
+endif
+{
+	if KESSEL
+		base_terrain				SAND2
+	elseif NABOO_GRASS
+		base_terrain				GRASS1
+	else
+		base_terrain				GRASS4
+	endif
+	number_of_clumps				24
+	spacing_to_other_terrain_types	1
+	land_percent					2
+	set_scale_by_size
+}
+
+/* TERTIARY PATCH */
+
+if REYTHA
+	create_terrain ROCK2
+else
+	create_terrain SAND_ROCK
+endif
+{
+	if KESSEL
+		base_terrain               SAND2
+	elseif NABOO_GRASS
+		base_terrain               GRASS1
+	else
+		base_terrain               GRASS4
+	endif
+	number_of_clumps               30
+	spacing_to_other_terrain_types 1
+	land_percent                   2
+	set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+#include_drs GBG_land_resources.inc 54103
+
+if FOODB1
+else
+	if NABOO_GRASS
+		create_object ANIMAL-NERF
+	else
+		create_object ANIMAL-BANTHA
+	endif
+	{
+		if FOODB2
+			number_of_objects 1
+		elseif FOODB4
+			number_of_objects 6
+		else
+			number_of_objects 3
+		endif
+		group_variance 1
+		number_of_groups 2
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_to_players    35
+		min_distance_group_placement  5
+	}
+endif
+
+if KESSEL
+	create_object OBJ-CARBONC
+elseif NABOO_GRASS
+	create_object OBJ-TREE_A
+else
+	create_object OBJ-TREE_D
+endif
+{
+	number_of_objects          40
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players    8
+}
+
+create_object OBJ-SEAFOODC
+{
+  number_of_objects                   4
+  set_scaling_to_map_size
+  set_gaia_object_only
+  max_distance_to_other_zones         4
+}
+
+create_object OBJ-SEAFOODD
+{
+  number_of_objects                   3
+  set_scaling_to_map_size
+  set_gaia_object_only
+  max_distance_to_other_zones         4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+  number_of_objects                   5
+  set_scaling_to_map_size
+  min_distance_group_placement         5
+  set_gaia_object_only
+}
+
+/* ****************************************************** */
+
+<ELEVATION_GENERATION>
+
+create_elevation        7
+{
+	if KESSEL
+		base_terrain		SAND2
+	elseif NABOO_GRASS
+		base_terrain		GRASS1
+	else           
+		base_terrain		GRASS4
+	endif
+	number_of_clumps 		14
+	number_of_tiles 		2000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+

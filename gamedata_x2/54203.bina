@@ -1,0 +1,360 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+
+start_random
+        percent_chance 33
+                #define NABOO_GRASS
+        percent_chance 33
+                #define REYTHA
+        percent_chance 34
+                #define ZALORIIS
+end_random
+
+<LAND_GENERATION>
+
+if NABOO_GRASS
+        base_terrain    GRASS1
+elseif REYTHA           
+        base_terrain    GRASS4
+else                    
+        base_terrain    ROCK3
+endif
+
+create_land 
+{                               
+        terrain_type            WATER_SHALLOW
+        land_percent            85     
+        left_border             10     
+        right_border            10     
+        top_border              10     
+        bottom_border           10     
+        border_fuzziness        40     
+        zone                    16              
+}
+
+create_player_lands 
+{            
+        if NABOO_GRASS
+                terrain_type    GRASS1
+        elseif REYTHA           
+                terrain_type    GRASS4
+        else                    
+                terrain_type    ROCK3
+        endif
+        land_percent                    50 
+        base_size                       9  
+        other_zone_avoidance_distance   7  
+        set_zone_by_team                
+}                                       
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                3 
+        spacing_to_other_terrain_types  1 
+        land_percent                    40
+} 
+
+create_terrain WATER_DEEP               
+{                                       
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                6 
+        spacing_to_other_terrain_types  3 
+        land_percent                    25
+}                                       
+  
+create_terrain WATER_ROUGH              
+{                                       
+        base_terrain                    WATER_DEEP
+        number_of_clumps                6 
+        spacing_to_other_terrain_types  1 
+        land_percent                    1 
+}
+
+/* PRIMARY CARBOND */
+
+if NABOO_GRASS
+        create_terrain TREE_A
+elseif REYTHA
+        create_terrain TREE_D
+else
+        create_terrain TREE_F
+endif
+{
+        if NABOO_GRASS
+                base_terrain            GRASS1
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        spacing_to_other_terrain_types  5 
+        land_percent                    9 
+        number_of_clumps                12
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+/* PRIMARY PATCH */
+if NABOO_GRASS
+        create_terrain GRASS2
+elseif REYTHA
+        create_terrain GRASS3
+else
+        create_terrain SAND2
+endif
+{
+        if NABOO_GRASS
+                base_terrain            GRASS1
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                8 
+        spacing_to_other_terrain_types  0 
+        land_percent                    6 
+        set_scale_by_size               
+}
+
+/* SECONDARY CARBOND */
+if NABOO_GRASS
+        create_terrain TREE_A
+elseif REYTHA
+        create_terrain TREE_D
+else
+        create_terrain ROCK_CARBON
+endif
+{
+        if NABOO_GRASS                  
+                base_terrain            GRASS1
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        spacing_to_other_terrain_types  3 
+        land_percent                    1 
+        number_of_clumps                3 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+/* SECONDARY PATCH */
+if NABOO_GRASS
+        create_terrain DIRT1
+elseif REYTHA
+        create_terrain DIRT1
+else
+        create_terrain SAND_ROCK
+endif
+{
+        if NABOO_GRASS                  
+                base_terrain            GRASS1
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                24 
+        spacing_to_other_terrain_types  0
+        land_percent                    2  
+        set_scale_by_size               
+}                                       
+
+/* TERTIARY PATCH */
+if NABOO_GRASS
+        create_terrain SAND_ROCK
+elseif REYTHA
+        create_terrain ROCK2
+else
+        create_terrain SAND1
+endif
+{
+        if NABOO_GRASS                  
+                base_terrain            GRASS1
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                30
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+create_object ANIMAL-OPEESEAKILLER
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object ANIMAL-COLOCLAWFISH
+{
+        number_of_objects               1       
+        set_scaling_to_player_number    
+        min_distance_to_players         40     
+        max_distance_to_players         60     
+}
+
+if FOODB1
+else
+        if NABOO_GRASS
+                create_object ANIMAL-NERF
+        else
+                create_object ANIMAL-BANTHA
+        endif
+        {
+                if FOODB2
+                        number_of_objects       1   
+                elseif FOODB4                   
+                        number_of_objects       4   
+                else                            
+                        number_of_objects       2   
+                endif                           
+                number_of_groups                2   
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         35  
+                min_distance_group_placement    5   
+        }
+endif
+
+if FOODD1
+else
+        if NABOO_GRASS
+                start_random
+                        percent_chance 50
+                                create_object ANIMAL-KAADU
+                        percent_chance 50
+                                create_object ANIMAL-EOPIE
+                end_random
+        elseif REYTHA
+                create_object ANIMAL-KAADU
+        else
+                create_object ANIMAL-EOPIE
+        endif
+        {
+                if FOODD2
+                        number_of_objects       2     
+                elseif FOODD4                   
+                        number_of_objects       8     
+                else                            
+                        number_of_objects       4     
+                endif                           
+                group_variance                  1     
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         19    
+        }
+endif
+
+if NABOO_GRASS
+        create_object OBJ-TREE_A
+elseif REYTHA
+        create_object OBJ-TREE_D
+else
+        create_object OBJ-CARBONC
+endif
+{
+        number_of_objects       30
+        set_scaling_to_map_size
+        min_distance_to_players 8
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects               20   
+        set_scaling_to_map_size         
+        max_distance_to_other_zones             4
+} 
+
+create_object OBJ-SEAFOODC
+{
+        number_of_objects               5    
+        set_scaling_to_map_size         
+        max_distance_to_other_zones             4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               25  
+        set_scaling_to_map_size         
+        min_distance_group_placement    3   
+}
+
+create_object OBJ-SEAFOODA
+{
+        number_of_groups                5   
+        number_of_objects               1   
+        set_scaling_to_map_size         
+        min_distance_group_placement    10  
+        max_distance_to_other_zones             7
+} 
+
+create_object OBJ-SEAFOODB
+{
+        number_of_groups                5   
+        number_of_objects               1   
+        set_scaling_to_map_size         
+        min_distance_group_placement    10  
+        max_distance_to_other_zones             7
+} 
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+create_elevation        5
+{
+        if NABOO_GRASS
+                base_terrain    GRASS1
+        elseif REYTHA           
+                base_terrain    GRASS4
+        else                    
+                base_terrain    ROCK3
+        endif                   
+        number_of_clumps        14  
+        number_of_tiles         2000
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+create_elevation        7
+{
+        if NABOO_GRASS
+                base_terrain    GRASS1
+        elseif REYTHA           
+                base_terrain    GRASS4
+        else                    
+                base_terrain    ROCK3
+        endif                   
+        number_of_clumps        14  
+        number_of_tiles         2000
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+<CLIFF_GENERATION>
+min_number_of_cliffs    5  
+max_number_of_cliffs    10 
+min_length_of_cliff     4  
+max_length_of_cliff     10 
+cliff_curliness         10 
+min_distance_cliffs     3     
+

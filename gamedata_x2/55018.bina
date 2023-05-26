@@ -1,0 +1,221 @@
+/* ************ GEONOSIS ************ */
+/* FEB 22 02 */
+
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement  /* note this is only currently valid entry */
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define GEONOSIS
+
+base_terrain ROCK3
+
+/* Fill in center */
+
+create_land
+{            
+	terrain_type                  ROCK3
+	land_percent                  30
+	base_size 7
+	left_border                   25
+	right_border                  25
+	top_border                    25
+	bottom_border                 25
+}
+
+create_player_lands 
+{            
+	terrain_type                  ROCK3
+	land_percent                  30
+	base_size                     9
+	start_random
+		percent_chance            50
+		left_border               8
+		right_border              6
+		percent_chance            50
+		left_border               6
+		right_border              8
+	end_random
+	start_random
+		percent_chance            50
+		top_border                8
+		bottom_border             6
+		percent_chance            50
+		top_border                6
+		bottom_border             8
+	end_random
+	border_fuzziness              10
+	set_zone_randomly  
+	other_zone_avoidance_distance 5
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+/* PRIMARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain					ROCK3
+	spacing_to_other_terrain_types	5
+	land_percent					15
+	number_of_clumps				10
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+
+create_terrain SAND2
+{
+	base_terrain					ROCK3
+	number_of_clumps				8
+	spacing_to_other_terrain_types	0
+	land_percent					10
+	set_scale_by_size
+}
+
+/* SECONDARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain					ROCK2
+	spacing_to_other_terrain_types	3
+	land_percent					8
+	number_of_clumps				3
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* SECONDARY PATCH */
+
+create_terrain SAND2
+{
+	base_terrain					ROCK3
+	number_of_clumps				24
+	spacing_to_other_terrain_types	0
+	land_percent					5
+	set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+#include_drs GBG_land_resources.inc 54103
+
+create_object ANIMAL_ORRAY
+{
+	number_of_objects			2
+	number_of_groups			4
+	group_variance				2
+	set_loose_grouping
+	set_gaia_object_only
+	min_distance_to_players		30
+}
+
+create_object ANIMAL_NEXU
+{
+	number_of_objects			2
+	set_loose_grouping
+	set_gaia_object_only
+	min_distance_to_players		15
+}
+
+create_object ANIMAL_REEK
+{
+	number_of_objects			2
+	set_loose_grouping
+	set_gaia_object_only
+	min_distance_to_players		25
+}
+
+create_object ANIMAL_ACKLAY
+{
+	number_of_objects			2
+	set_loose_grouping
+	set_gaia_object_only
+	min_distance_to_players		22
+}
+
+create_object OBJ-GEOVENT
+{
+	number_of_objects			3
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players		15
+}
+
+create_object OBJ-STALMIT1
+{
+	number_of_objects			1
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players		15
+}
+
+create_object OBJ-STALMIT2
+{
+	number_of_objects			1
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players		20
+}
+
+create_object OBJ-STALMIT3
+{
+	number_of_objects			1
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players		20
+}
+
+create_object OBJ-STALMNT
+{
+	number_of_objects			2
+	set_gaia_object_only
+	set_scaling_to_map_size
+	min_distance_to_players		25
+}
+
+create_object OBJ-ORE1
+{
+	number_of_groups					4   
+	number_of_objects					3
+	group_placement_radius				2
+	set_tight_grouping
+	min_distance_to_players				40
+	min_distance_group_placement		9
+}
+
+create_object OBJ-ORE2
+{
+	number_of_groups					2   
+	number_of_objects					2
+	group_placement_radius				2
+	set_tight_grouping
+	min_distance_to_players				30
+	min_distance_group_placement		9
+}
+
+create_object OBJ-NOVA
+{
+	number_of_groups					4   
+	number_of_objects					5
+	group_placement_radius				2
+	set_tight_grouping
+	min_distance_to_players				35
+	min_distance_group_placement		9
+}
+
+
+/* ****************************************************** */
+<CLIFF_GENERATION>
+min_number_of_cliffs 5
+max_number_of_cliffs 10
+min_length_of_cliff  8
+max_length_of_cliff  25
+cliff_curliness		 1

@@ -1,0 +1,254 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define NABOO_GRASS
+
+base_terrain GRASS1
+create_land 
+{
+  terrain_type                  DIRT1   
+  land_percent                  85      
+  left_border                   15      
+  right_border                  15      
+  top_border                    15      
+  bottom_border                 15      
+  zone                          16      
+  min_placement_distance        100     
+}
+
+create_land 
+{
+  terrain_type  DIRT1
+  land_percent  5
+  left_border   40
+  right_border  40
+  top_border    40
+  bottom_border 40 
+  zone          15
+  land_id       22
+}
+
+create_player_lands 
+{            
+  terrain_type                  GRASS1
+  land_percent                  50
+  base_size                     9
+  other_zone_avoidance_distance 7
+  set_zone_by_team              
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+create_terrain TREE_A
+{
+        base_terrain                    GRASS1
+        spacing_to_other_terrain_types  5 
+        land_percent                    12
+        number_of_clumps                10
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain TREE_A                   
+{                                       
+        base_terrain                    GRASS1
+        spacing_to_other_terrain_types  5 
+        land_percent                    5 
+        number_of_clumps                20
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain WATER_SHALLOW            
+{                                       
+        base_terrain                    GRASS1
+        land_percent                    1
+        number_of_clumps                4
+        spacing_to_other_terrain_types  1 
+        set_avoid_player_start_areas    
+        set_flat_terrain_only           
+}                                        
+   
+create_terrain WATER_ROUGH               
+{                                        
+        base_terrain                    WATER_SHALLOW
+        land_percent                    1 
+        number_of_clumps                4 
+        spacing_to_other_terrain_types  1 
+        set_avoid_player_start_areas    
+        set_flat_terrain_only           
+}                                       
+  
+create_terrain SAND_ROCK                
+{                                       
+        base_terrain                    DIRT1
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1 
+        land_percent                    8 
+        set_scale_by_size               
+}                                       
+  
+create_terrain GRASS2                   
+{                                       
+        base_terrain                    GRASS1
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODD1
+else
+        start_random
+                percent_chance 50
+                        create_object ANIMAL-KAADU
+                percent_chance 50
+                        create_object ANIMAL-EOPIE
+        end_random
+        {
+                if FOODD2                       
+                        number_of_objects       3     
+                elseif FOODD4                   
+                        number_of_objects       12    
+                else                            
+                        number_of_objects       6     
+                endif                           
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         19    
+        }
+endif
+
+create_object OBJ-NOVA
+{
+        terrain_to_place_on             DIRT1
+        number_of_objects               12  
+        number_of_groups                10  
+        group_variance                  4   
+        group_placement_radius          2   
+        set_tight_grouping              
+        min_distance_group_placement    5   
+        place_on_specific_land_id       22  
+        max_distance_to_players         14  
+}
+
+start_random
+        percent_chance 50
+                create_object ANIMAL-TUSKCAT
+        percent_chance 50
+                create_object ANIMAL-RANCOR
+end_random
+{
+        terrain_to_place_on     DIRT1
+        number_of_objects       4
+        number_of_groups        4
+        set_loose_grouping      
+        min_distance_to_players 25
+}
+
+create_object OBJ-ORE1                  
+{                                       
+        number_of_groups                1    
+        number_of_objects               6   
+        group_placement_radius          2   
+        set_tight_grouping              
+        set_scaling_to_player_number    
+        min_distance_to_players         20  
+        max_distance_to_players         45  
+        min_distance_group_placement    9   
+}
+
+if LARGE_MAP
+        create_object OBJ-ORE1
+        {
+                number_of_groups                1    
+                number_of_objects               6   
+                group_placement_radius          2   
+                set_tight_grouping              
+                min_distance_to_players         40  
+                max_distance_to_players         120 
+                min_distance_group_placement    9   
+        }                                       
+endif                                           
+    
+if HUGE_MAP                                     
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_groups                2    
+                number_of_objects               6   
+                group_placement_radius          2   
+                set_tight_grouping              
+                min_distance_to_players         40  
+                max_distance_to_players         120 
+                min_distance_group_placement    9   
+        }                                       
+endif                                           
+    
+if GIGANTIC_MAP                                 
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_groups                3    
+                number_of_objects               4   
+                group_placement_radius          2   
+                set_tight_grouping              
+                min_distance_to_players         40  
+                max_distance_to_players         120 
+                min_distance_group_placement    9   
+        }                                       
+endif                                           
+    
+create_object OBJ-TREE_A                        
+{                                               
+        number_of_objects       30              
+        set_scaling_to_map_size         
+        min_distance_to_players 8               
+}                                               
+    
+create_object OBJ-SEAFOOD2                      
+{                                               
+        number_of_objects               5   
+        set_scaling_to_map_size         
+        min_distance_group_placement    3       
+}                                               
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+
+create_elevation        5
+{
+        base_terrain            GRASS1
+        number_of_clumps        14  
+        number_of_tiles         2000
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+create_elevation        7
+{
+        base_terrain            DIRT1
+        number_of_clumps        14   
+        number_of_tiles         2000 
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+<CLIFF_GENERATION>
+min_number_of_cliffs    5  
+max_number_of_cliffs    10 
+min_length_of_cliff     4  
+max_length_of_cliff     10 
+cliff_curliness         10 
+min_distance_cliffs     3
+

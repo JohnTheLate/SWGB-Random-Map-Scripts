@@ -1,0 +1,259 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define ARENA
+
+start_random
+        percent_chance 30
+                #define ENDOR
+        percent_chance 30
+                #define ALARIS
+        percent_chance 40
+                #define KRANT
+end_random
+
+
+if ALARIS
+        base_terrain TREE_C
+elseif ENDOR
+        base_terrain TREE_G
+else
+        base_terrain TREE_D
+endif
+create_land
+{            
+        if ENDOR
+                terrain_type    DIRT1
+        elseif ALARIS           
+                terrain_type    GRASS2
+        else                    
+                terrain_type    GRASS3
+        endif                   
+        land_percent            60  
+        base_size               10  
+        left_border             18  
+        right_border            18  
+        top_border              18  
+        bottom_border           18  
+        zone                    1
+}
+
+create_land
+{            
+        if ENDOR
+                terrain_type    DIRT1
+        elseif ALARIS           
+                terrain_type    GRASS2
+        else                    
+                terrain_type    GRASS3
+        endif                   
+		land_position			50 50
+		number_of_tiles			0
+		base_size				0
+        left_border             30
+        right_border            30
+        top_border              30
+        bottom_border           30
+		land_id					1
+}
+
+create_player_lands 
+{                                       
+        if ENDOR                        
+                terrain_type            DIRT1
+        elseif ALARIS                   
+                terrain_type            GRASS2
+        else                            
+                terrain_type            GRASS3
+        endif                           
+        land_percent                    20 
+        base_size                       12 
+        left_border                     3  
+        right_border                    3  
+        top_border                      3  
+        bottom_border                   3  
+        border_fuzziness                1  
+        other_zone_avoidance_distance   30 
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+if ENDOR
+        create_terrain TREE_G
+elseif ALARIS
+        create_terrain TREE_C
+else
+        create_terrain TREE_D
+endif
+{
+        if ENDOR                        
+                base_terrain            DIRT1
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS3
+        endif                           
+        spacing_to_other_terrain_types  5 
+        land_percent                    1 
+        number_of_clumps                3 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+if ENDOR                                
+   create_terrain GRASS2                
+elseif ALARIS                           
+        create_terrain GRASS3           
+else                                    
+        create_terrain GRASS2           
+endif                                   
+{                                       
+        if ENDOR                        
+                base_terrain            DIRT1
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS3
+        endif                           
+        number_of_clumps                8 
+        spacing_to_other_terrain_types  0 
+        land_percent                    4 
+        set_scale_by_size               
+}                                       
+  
+if ENDOR                                
+   create_terrain GRASS1                
+elseif ALARIS                           
+        create_terrain DIRT1            
+else                                    
+        create_terrain DIRT1            
+endif                                   
+{                                       
+        if ENDOR                        
+                base_terrain            DIRT1
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS3
+        endif                           
+        number_of_clumps                24
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+  
+if ENDOR                                
+   create_terrain GRASS2                
+else                                    
+        create_terrain SAND_ROCK        
+endif                                   
+{                                       
+        if ENDOR                        
+                base_terrain            DIRT1
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS3
+        endif                           
+        number_of_clumps                30
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+create_object BLDG-BARRIER1
+{
+  number_of_objects             9999
+  set_place_for_every_player    
+  min_distance_to_players       18  
+  max_distance_to_players       22  
+}
+
+create_object OBJ-FORAGE                
+{                                       
+        number_of_groups                 	1
+		if FOODA1                       
+                 number_of_objects       	5
+		elseif FOODA2                       
+                 number_of_objects       	3
+		elseif FOODA4                   
+                 number_of_objects       	10
+		else                            
+                 number_of_objects       	5
+		endif
+        set_tight_grouping
+		place_on_specific_land_id		 		1
+        min_distance_to_players          		1
+		if TINY_MAP
+				max_distance_to_players          		10
+		elseif SMALL_MAP
+				max_distance_to_players          		15
+		else
+				max_distance_to_players          		20
+		endif
+		min_distance_group_placement 			1
+		temp_min_distance_group_placement 		5
+}
+
+if ENDOR
+        create_object OBJ-TREE_G
+elseif ALARIS
+        create_object OBJ-TREE_C
+else
+        create_object OBJ-TREE_D
+endif
+{
+        number_of_objects       30
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land
+{
+        replace_terrain WATER_SHALLOW   WATER_SWAMP
+        replace_terrain WATER_ROUGH     WATER_SWAMP
+        replace_terrain WATER_DEEP      WATER_SWAMP
+        replace_terrain TREE_G          DIRT1
+        replace_terrain TREE_C          GRASS2
+        replace_terrain TREE_D          GRASS3
+   
+        terrain_cost    WATER_SHALLOW   7  
+        terrain_cost    WATER_ROUGH     9  
+        terrain_cost    WATER_DEEP      15 
+        terrain_cost    TREE_G          7  
+        terrain_cost    TREE_C          7  
+        terrain_cost    TREE_D          7  
+        terrain_cost    WATER_SWAMP     3  
+        terrain_cost    SHORE           1  
+        terrain_cost    DIRT1           2  
+        terrain_cost    GRASS1          2  
+        terrain_cost    GRASS2          2  
+        terrain_cost    GRASS3          2  
+        terrain_cost    SAND_ROCK       7  
+   
+        terrain_size    WATER_SHALLOW   3       1
+        terrain_size    WATER_ROUGH     3       1
+        terrain_size    WATER_DEEP      3       1
+        terrain_size    GRASS1          0       0
+        terrain_size    GRASS2          0       0
+        terrain_size    GRASS3          0       0
+        terrain_size    TREE_G          6       1
+        terrain_size    TREE_C          6       1
+        terrain_size    TREE_D          6       1
+        terrain_size    SHORE           0       0
+        terrain_size    DIRT1           0       0
+        terrain_size    SAND_ROCK       0       0
+}
+

@@ -1,0 +1,755 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+base_terrain WATER_SHALLOW
+
+#define WATERMASS
+
+start_random
+        percent_chance 25
+                #define YAVIN
+        percent_chance 25
+                #define ENDOR
+        percent_chance 25
+                #define REYTHA
+        percent_chance 25
+                #define ZALORIIS
+end_random
+
+create_player_lands 
+{            
+        if YAVIN
+                terrain_type    GRASS2
+        elseif ENDOR
+                terrain_type    DIRT1
+        elseif REYTHA
+                terrain_type    GRASS4
+        else           
+                terrain_type    ROCK3
+        endif
+        land_percent            35
+        base_size               12
+        start_random
+                percent_chance 50
+                        zone    8
+                percent_chance 50
+                        set_zone_randomly
+        end_random
+        left_border                     4
+        right_border                    4
+        top_border                      4
+        bottom_border                   4
+        border_fuzziness                7
+        other_zone_avoidance_distance   7
+}
+
+/* ************** RESOURCE ISLANDS ************ */
+create_land 
+{
+        if YAVIN
+                terrain_type    GRASS2
+        elseif ENDOR
+                terrain_type    DIRT1
+        elseif REYTHA
+                terrain_type    GRASS4
+        else                       
+                terrain_type    ROCK3
+        endif  
+        land_percent                    1
+        border_fuzziness                10
+        other_zone_avoidance_distance   7
+        land_id                         20
+        left_border                     5
+        right_border                    5
+        top_border                      5
+        bottom_border                   5 
+}
+
+create_land 
+{
+        if YAVIN
+                terrain_type    GRASS2
+        elseif ENDOR
+                terrain_type    DIRT1
+        elseif REYTHA
+                terrain_type    GRASS4
+        else                       
+                terrain_type    ROCK3
+        endif  
+        land_percent                    1
+        border_fuzziness                10
+        other_zone_avoidance_distance   7
+        land_id                         23
+        left_border                     5
+        right_border                    5
+        top_border                      5
+        bottom_border                   5 
+}
+
+/* ================= MEDIUM */
+if MEDIUM_MAP
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         21
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+endif
+
+/* ====================== LARGE */
+if LARGE_MAP
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         21
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         24
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+endif
+
+/* ======================== HUGE */
+if HUGE_MAP
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         21
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         22
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         24
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+endif
+
+/* ======================== GIGANTIC */
+if GIGANTIC_MAP
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         21
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         22
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+
+        create_land 
+        {
+                if YAVIN
+                        terrain_type    GRASS2
+                elseif ENDOR
+                        terrain_type    DIRT1
+                elseif REYTHA
+                        terrain_type    GRASS4
+                else                       
+                        terrain_type    ROCK3
+                endif  
+                land_percent                    1
+                border_fuzziness                10
+                other_zone_avoidance_distance   7
+                land_id                         24
+                left_border                     5
+                right_border                    5
+                top_border                      5
+                bottom_border                   5 
+        }
+endif
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                10
+        spacing_to_other_terrain_types  2
+        land_percent                    40
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                8
+        spacing_to_other_terrain_types  3
+        land_percent                    20
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_DEEP
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain                          WATER_SHALLOW
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+/* PRIMARY CARBON */    
+if YAVIN
+        create_terrain TREE_C
+        {
+                base_terrain                    GRASS2
+                spacing_to_other_terrain_types  5
+                land_percent                    6
+                number_of_clumps                10
+                set_avoid_player_start_areas     
+                set_scale_by_groups
+        }
+elseif ENDOR
+        create_terrain TREE_G
+        {
+                base_terrain                   DIRT1
+                spacing_to_other_terrain_types 5
+                land_percent                   3
+                number_of_clumps               10
+                set_avoid_player_start_areas     
+                set_scale_by_groups
+        }
+elseif REYTHA
+        create_terrain TREE_D
+        {
+                base_terrain                   GRASS4
+                spacing_to_other_terrain_types 5
+                land_percent                   3
+                number_of_clumps               10
+                set_avoid_player_start_areas     
+                set_scale_by_groups
+        }
+else
+        create_terrain TREE_F
+        {
+                base_terrain                   ROCK3
+                spacing_to_other_terrain_types 5
+                land_percent                   3
+                number_of_clumps               5
+                set_avoid_player_start_areas     
+                set_scale_by_groups
+        }
+        create_terrain ROCK_CARBON
+        {
+                base_terrain                   ROCK3
+                spacing_to_other_terrain_types 5
+                land_percent                   3
+                number_of_clumps               5
+                set_avoid_player_start_areas     
+                set_scale_by_groups
+        }
+endif
+
+/* PRIMARY PATCH */     
+if YAVIN
+        create_terrain GRASS3
+        {
+                base_terrain                   GRASS2
+                number_of_clumps               24
+                spacing_to_other_terrain_types 0
+                land_percent                   15
+                set_scale_by_size
+        }
+elseif ENDOR
+        create_terrain GRASS2
+        {
+                base_terrain                   DIRT1
+                number_of_clumps               16
+                spacing_to_other_terrain_types 0
+                land_percent                   2
+                set_scale_by_size
+        }
+elseif REYTHA
+        create_terrain GRASS3
+        {
+                base_terrain                   GRASS4
+                number_of_clumps               16
+                spacing_to_other_terrain_types 0
+                land_percent                   2
+                set_scale_by_size
+        }
+else
+        create_terrain SAND2
+        {
+                base_terrain                   ROCK3
+                number_of_clumps               10
+                spacing_to_other_terrain_types 0
+                land_percent                   2
+                set_scale_by_size
+        }
+endif
+
+/* SECONDARY PATCH */   
+if YAVIN
+        create_terrain DIRT1
+        {
+                base_terrain                   GRASS2
+                number_of_clumps               24
+                spacing_to_other_terrain_types 0
+                land_percent                   1
+                set_scale_by_size
+        }
+elseif ENDOR
+        create_terrain GRASS1
+        {
+                base_terrain                   DIRT1
+                number_of_clumps               24
+                spacing_to_other_terrain_types 0
+                land_percent                   1
+                set_scale_by_size
+        }
+elseif REYTHA
+        create_terrain DIRT1
+        {
+                base_terrain                   GRASS4
+                number_of_clumps               24
+                spacing_to_other_terrain_types 0
+                land_percent                   1
+                set_scale_by_size
+        }
+else
+        create_terrain SAND_ROCK
+        {
+                base_terrain                   ROCK3
+                number_of_clumps               24
+                spacing_to_other_terrain_types 0
+                land_percent                   1
+                set_scale_by_size
+        }
+endif
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+/* PLAYER START OBJECTS */
+
+#include_drs GBG_land_resources.inc 54103
+
+create_object ANIMAL-OPEESEAKILLER
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object ANIMAL-COLOCLAWFISH
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object OBJ-SEAFOODC
+{
+        number_of_objects               10
+        set_scaling_to_map_size
+        max_distance_to_other_zones         4
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects               9
+        set_scaling_to_map_size
+        max_distance_to_other_zones         4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               30
+        set_scaling_to_map_size
+        min_distance_group_placement    3
+}
+
+create_object OBJ-SEAFOODA
+{
+        number_of_groups                5
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones         7
+} 
+
+create_object OBJ-SEAFOODB
+{
+        number_of_groups                5
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones         7
+} 
+
+/* ************************************** */
+/* BONUS RESOURCES */
+create_object OBJ-NOVA
+{
+        number_of_groups          2
+        number_of_objects         3
+        group_placement_radius    2
+        set_tight_grouping
+        place_on_specific_land_id 20
+}
+
+create_object OBJ-ORE1
+{
+        number_of_objects         4
+        group_placement_radius    2
+        set_tight_grouping
+        place_on_specific_land_id 23
+}
+
+/* ======================= MEDIUM */
+if MEDIUM_MAP
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       20
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       21
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               6
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       23
+        }
+endif
+
+/* =========================== LARGE */
+if LARGE_MAP
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       20
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       21
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               4
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       23
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               4
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       24
+        }
+endif
+
+/* ====================== HUGE */
+if HUGE_MAP
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       20
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       21
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               5
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       22
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               6
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       23
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               6
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       24
+        }
+endif
+
+/* ====================== GIGANTIC */
+if GIGANTIC_MAP
+        create_object OBJ-NOVA
+        {
+                number_of_objects               7
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       20
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               7
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       21
+        }
+
+        create_object OBJ-NOVA
+        {
+                number_of_objects               7
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       22
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               8
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       23
+        }
+
+        create_object OBJ-ORE1
+        {
+                number_of_objects               8
+                group_variance                  1
+                group_placement_radius          2
+                set_tight_grouping
+                place_on_specific_land_id       24
+        }
+endif
+
+if YAVIN
+        create_object OBJ-TREE_C
+        {
+                number_of_objects       15
+                set_scaling_to_map_size
+                min_distance_to_players 8
+        }
+elseif ENDOR
+        create_object OBJ-TREE_G
+        {
+                number_of_objects       15
+                set_scaling_to_map_size
+                min_distance_to_players 8
+        }
+elseif REYTHA
+        create_object OBJ-TREE_D
+        {
+                number_of_objects       15
+                set_scaling_to_map_size
+                min_distance_to_players 8
+        }
+else
+        start_random
+                percent_chance 50
+                        create_object OBJ-CARBONC
+                percent_chance 50
+                        create_object OBJ-TREE_F
+        end_random
+        {
+                number_of_objects       15
+                set_scaling_to_map_size
+                min_distance_to_players 8
+        }
+endif
+

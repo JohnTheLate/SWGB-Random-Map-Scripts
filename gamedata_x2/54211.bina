@@ -1,0 +1,593 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+start_random
+        percent_chance 30
+                #define ALARIS
+        percent_chance 30
+                #define NABOO_GRASS
+        percent_chance 40
+                #define ZALORIIS
+end_random
+
+#define SATELLITES
+
+base_terrain WATER_SHALLOW
+create_player_lands 
+{            
+        if ALARIS                       
+                terrain_type            GRASS2
+        elseif NABOO_GRASS              
+                terrain_type            GRASS1
+        else                            
+                terrain_type            ROCK3
+        endif                           
+        land_percent                    35 
+        base_size                       9  
+        left_border                     7  
+        right_border                    7  
+        top_border                      7  
+        bottom_border                   7  
+        border_fuzziness                7  
+        other_zone_avoidance_distance   9  
+}
+
+create_land 
+{
+        if ALARIS                       
+                terrain_type            GRASS2
+        elseif NABOO_GRASS              
+                terrain_type            GRASS1
+        else                            
+                terrain_type            ROCK3
+        endif                           
+        land_percent                    1  
+        border_fuzziness                10 
+        other_zone_avoidance_distance   7  
+        land_id                         20 
+        left_border                     5  
+        right_border                    5  
+        top_border                      5  
+        bottom_border                   5  
+}
+
+create_land 
+{
+        if ZALORIIS                     
+                terrain_type            ROCK3
+        elseif ALARIS                   
+                terrain_type            GRASS2
+        else                            
+                terrain_type            GRASS1
+        endif                           
+        land_percent                    1  
+        border_fuzziness                10 
+        other_zone_avoidance_distance   7  
+        land_id                         23 
+        left_border                     5  
+        right_border                    5  
+        top_border                      5  
+        bottom_border                   5  
+}
+
+if MEDIUM_MAP
+        create_land 
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         21 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }
+endif
+
+if LARGE_MAP
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         21 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         24 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+endif                                           
+   
+if HUGE_MAP                                     
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         21 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+   
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         22 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+   
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         24 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+endif                                           
+   
+if GIGANTIC_MAP                                 
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         21 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+   
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         22 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+   
+        create_land                             
+        {                                       
+                if ZALORIIS                     
+                        terrain_type            ROCK3
+                elseif ALARIS                   
+                        terrain_type            GRASS2
+                else                            
+                        terrain_type            GRASS1
+                endif                           
+                land_percent                    1  
+                border_fuzziness                10 
+                other_zone_avoidance_distance   7  
+                land_id                         24 
+                left_border                     5  
+                right_border                    5  
+                top_border                      5  
+                bottom_border                   5  
+        }                                       
+endif                                           
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                10
+        spacing_to_other_terrain_types  2
+        land_percent                    40
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                6
+        spacing_to_other_terrain_types  3
+        land_percent                    20
+}
+
+if ZALORIIS
+        create_terrain ROCK_CARBON
+elseif ALARIS
+        create_terrain TREE_C
+else
+        create_terrain TREE_A
+endif
+{
+        if ZALORIIS                     
+                base_terrain            ROCK3
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS1
+        endif                           
+        spacing_to_other_terrain_types  4 
+        land_percent                    6 
+        number_of_clumps                15
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+if ZALORIIS
+        create_terrain SAND2
+else
+        create_terrain LEAVES
+endif
+{
+        if ZALORIIS                     
+                base_terrain            ROCK3
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS1
+        endif                           
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}
+
+if ZALORIIS
+        create_terrain SAND_ROCK
+elseif ALARIS                           
+        create_terrain GRASS3           
+else                                    
+        create_terrain GRASS2           
+endif                                   
+{                                       
+        if ZALORIIS                     
+                base_terrain            ROCK3
+        elseif ALARIS                   
+                base_terrain            GRASS2
+        else                            
+                base_terrain            GRASS1
+        endif                           
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1 
+        land_percent                    1 
+        set_scale_by_size               
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+create_object OBJ-SEAFOODC
+{
+        number_of_objects       10
+        set_scaling_to_map_size
+        max_distance_to_other_zones             4
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects       9
+        set_scaling_to_map_size
+        max_distance_to_other_zones             4
+}
+
+create_object OBJ-SEAFOODB
+{                                                                       
+        number_of_objects       9
+        set_scaling_to_map_size
+        max_distance_to_other_zones             4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               30
+        set_scaling_to_map_size
+        min_distance_group_placement    3
+}
+
+create_object OBJ-SEAFOODA
+{
+        number_of_groups                5       
+        number_of_objects               1       
+        set_scaling_to_map_size         
+        min_distance_group_placement    10      
+        max_distance_to_other_zones             7
+} 
+
+create_object OBJ-SEAFOODB
+{
+        number_of_groups                5       
+        number_of_objects               1       
+        set_scaling_to_map_size         
+        min_distance_group_placement    10      
+        max_distance_to_other_zones             7
+} 
+
+create_object ANIMAL-OPEESEAKILLER
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object ANIMAL-COLOCLAWFISH
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object OBJ-NOVA
+{
+        number_of_groups                2      
+        number_of_objects               3      
+        group_placement_radius          2      
+        set_tight_grouping              
+        place_on_specific_land_id       20     
+}
+
+create_object OBJ-ORE1
+{
+        number_of_objects               2    
+        group_placement_radius          2    
+        set_tight_grouping              
+        place_on_specific_land_id       23    
+}
+
+if MEDIUM_MAP                                   
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       20     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       21     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               6      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       23     
+        }                                       
+endif                                           
+       
+if LARGE_MAP                                    
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       20     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       21     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               4      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       23     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               4      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       24     
+        }                                       
+endif                                           
+       
+if HUGE_MAP                                     
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       20     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       21     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               5      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       22     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               6      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       23     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               6      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       24     
+        }                                       
+endif                                           
+       
+if GIGANTIC_MAP                                 
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               7      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       20     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               7      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       21     
+        }                                       
+       
+        create_object OBJ-NOVA                  
+        {                                       
+                number_of_objects               7      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       22     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               8      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       23     
+        }                                       
+       
+        create_object OBJ-ORE1                  
+        {                                       
+                number_of_objects               8      
+                group_variance                  1      
+                group_placement_radius          2      
+                set_tight_grouping              
+                place_on_specific_land_id       24     
+        }
+endif
+
+if ZALORIIS
+        create_object OBJ-CARBONC
+elseif ALARIS
+        create_object OBJ-TREE_C
+else
+        create_object OBJ-TREE_A
+endif
+{
+        number_of_objects       15
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+

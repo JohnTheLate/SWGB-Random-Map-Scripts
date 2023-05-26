@@ -1,0 +1,291 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define ENDOR
+
+base_terrain TREE_G
+create_player_lands 
+{                                       
+        terrain_type                    DIRT1
+        land_percent                    50 
+        base_size                       13 
+        other_zone_avoidance_distance   6  
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+if TINY_MAP
+        create_terrain TREE_G
+        {
+                base_terrain                    DIRT1
+                spacing_to_other_terrain_types  5 
+                land_percent                    5 
+                number_of_clumps                10
+                clumping_factor                 45
+                set_avoid_player_start_areas    
+                set_scale_by_size               
+        }                                       
+elseif SMALL_MAP                                
+        create_terrain TREE_G                   
+        {                                       
+                base_terrain                    DIRT1                   
+                spacing_to_other_terrain_types  5 
+                land_percent                    15
+                number_of_clumps                20
+                clumping_factor                 35
+                set_avoid_player_start_areas    
+                set_scale_by_size               
+        }                                       
+else                                            
+        create_terrain TREE_G                   
+        {                                       
+                base_terrain                    DIRT1                   
+                spacing_to_other_terrain_types  5 
+                land_percent                    15
+                number_of_clumps                20
+                clumping_factor                 50
+                set_avoid_player_start_areas    
+                set_scale_by_size               
+        }                                       
+endif                                           
+  
+create_terrain DIRT1                            
+{                                               
+        base_terrain                            TREE_G
+        spacing_to_other_terrain_types          1       
+        land_percent                            7 
+        number_of_clumps                        9 
+        set_avoid_player_start_areas            
+}                                               
+  
+create_terrain DIRT1                           
+{                                               
+        base_terrain                            DIRT1
+        spacing_to_other_terrain_types          1       
+        land_percent                            3 
+        number_of_clumps                        26
+}                                               
+  
+create_terrain DIRT1                           
+{                                               
+        base_terrain                            DIRT1
+        spacing_to_other_terrain_types          1       
+        land_percent                            1 
+        number_of_clumps                        40
+}                                               
+  
+create_terrain GRASS2                           
+{                                               
+        base_terrain                            DIRT1
+        number_of_clumps                        24
+        spacing_to_other_terrain_types          1       
+        land_percent                            2 
+        set_scale_by_size                       
+}                                               
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODC1
+else
+        start_random
+                percent_chance 50
+                        create_object ANIMAL-DEWBACK
+                percent_chance 50
+                        create_object ANIMAL-FALUMPASET
+        end_random
+        {
+                if FOODC2
+                        number_of_objects       1   
+                elseif FOODC4                   
+                        number_of_objects       6   
+                else                            
+                        number_of_objects       3   
+                endif                           
+                group_variance                  1   
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         35  
+                min_distance_group_placement    5   
+        }
+endif
+
+create_object OBJ-TREE_G
+{
+        number_of_objects               100 
+        min_distance_to_players         6   
+        min_distance_group_placement    2   
+}
+
+create_object EWOK_HUT
+{
+        number_of_objects               4   
+        number_of_groups                4   
+        min_distance_to_players         35  
+        min_distance_group_placement    15  
+        set_scaling_to_map_size         
+}
+
+create_object OBJ-PLANTA
+{
+        number_of_objects       100
+        min_distance_to_players 15
+}
+
+create_object OBJ-PLANTI
+{
+        number_of_objects       100
+        min_distance_to_players 15
+}
+
+create_object OBJ-ROCKS1
+{
+        number_of_objects       120
+        min_distance_to_players 15
+        set_scaling_to_map_size 
+
+}
+
+start_random
+        percent_chance 50
+        #define M1
+end_random
+
+start_random
+        percent_chance 75
+        if M1
+                create_object MOUNTAIN1
+        else
+                create_object MOUNTAIN2
+        endif
+        {
+                number_of_objects       1
+                min_distance_to_players 40
+        }
+end_random
+
+start_random
+        percent_chance 50
+        #define M2
+end_random
+
+start_random
+        percent_chance 25
+        if M2
+                create_object MOUNTAIN2
+        else
+                create_object MOUNTAIN1
+        endif
+        {
+                number_of_objects       1
+                min_distance_to_players 40
+        }
+end_random
+
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+create_elevation        4
+{
+        base_terrain            DIRT1
+        number_of_clumps        10   
+        number_of_tiles         700  
+        set_scale_by_groups     
+}
+
+create_elevation        7
+{
+        base_terrain            DIRT1
+        number_of_clumps        7    
+        number_of_tiles         4300 
+        set_scale_by_groups     
+}
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land 
+{
+        replace_terrain GRASS4          GRASS4
+        replace_terrain GRASS2          GRASS2
+        replace_terrain DIRT1           DIRT1
+        replace_terrain DIRT1          DIRT1
+        replace_terrain WATER_SHALLOW   WATER_SWAMP
+        replace_terrain WATER_DEEP      WATER_SWAMP
+        replace_terrain TREE_A          DIRT1
+        replace_terrain TREE_C          GRASS2
+        replace_terrain TREE_D          GRASS4
+        replace_terrain TREE_G          DIRT1
+   
+        terrain_cost    WATER_SHALLOW   5  
+        terrain_cost    WATER_ROUGH     7  
+        terrain_cost    TREE_A          2  
+        terrain_cost    TREE_C          2  
+        terrain_cost    TREE_D          2  
+        terrain_cost    TREE_G          2  
+        terrain_cost    GRASS4          1  
+        terrain_cost    GRASS2          1  
+        terrain_cost    DIRT1           1  
+        terrain_cost    DIRT1          2  
+        terrain_cost    SHORE           4  
+   
+        terrain_size    WATER_SHALLOW   2       1
+        terrain_size    WATER_ROUGH     2       1
+        terrain_size    GRASS4          2       1
+        terrain_size    GRASS2          4       0
+        terrain_size    DIRT1           3       1
+        terrain_size    DIRT1          5       1
+        terrain_size    TREE_A          0       0
+        terrain_size    TREE_C          0       0
+        terrain_size    TREE_D          0       0
+        terrain_size    TREE_G          0       0
+        terrain_size    SHORE           0       0
+}                                       
+   
+create_connect_teams_lands              
+{                                       
+        replace_terrain GRASS4          DIRT2
+        replace_terrain GRASS2          DIRT2
+        replace_terrain DIRT1           DIRT2
+        replace_terrain DIRT1          DIRT2
+        replace_terrain WATER_SHALLOW   WATER_SWAMP
+        replace_terrain WATER_ROUGH     WATER_SWAMP 
+        replace_terrain TREE_A          DIRT2
+        replace_terrain TREE_C          DIRT2
+        replace_terrain TREE_D          DIRT2
+        replace_terrain TREE_G          SHORE
+   
+        terrain_cost    WATER_SHALLOW   7  
+        terrain_cost    WATER_ROUGH     7  
+        terrain_cost    TREE_A          7  
+        terrain_cost    TREE_C          7  
+        terrain_cost    TREE_D          7  
+        terrain_cost    TREE_G          7  
+        terrain_cost    GRASS4          2  
+        terrain_cost    GRASS2          2  
+        terrain_cost    DIRT1           1  
+        terrain_cost    DIRT1          1  
+        terrain_cost    SHORE           4  
+        terrain_cost    DIRT2           1  
+   
+        terrain_size    WATER_SHALLOW   2       1
+        terrain_size    WATER_ROUGH     2       1
+        terrain_size    GRASS4          2       1
+        terrain_size    GRASS2          2       1
+        terrain_size    DIRT1           4       1
+        terrain_size    DIRT1          5       1
+        terrain_size    TREE_A          0       0
+        terrain_size    TREE_C          0       0
+        terrain_size    TREE_D          0       0
+        terrain_size    TREE_G          0       0
+        terrain_size    SHORE           0       0
+        terrain_size    DIRT2           0       0
+}
+

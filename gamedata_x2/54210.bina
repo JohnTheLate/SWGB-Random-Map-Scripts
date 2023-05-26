@@ -1,0 +1,376 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+start_random
+        percent_chance 25
+                #define YAVIN
+        percent_chance 25
+                #define NABOO_FOREST
+        percent_chance 25
+                #define KASHYYYK
+        percent_chance 25
+                #define REYTHA
+end_random
+
+base_terrain WATER_SHALLOW
+create_player_lands 
+{            
+        if YAVIN                
+                terrain_type    GRASS2
+        elseif NABOO_FOREST     
+                terrain_type    DIRT1
+        elseif KASHYYYK         
+                terrain_type    GRASS3
+        else                    
+                terrain_type    GRASS4
+        endif                   
+        land_percent            95  
+        base_size               13  
+        start_random            
+                percent_chance  60
+                        set_zone_by_team
+                percent_chance  40
+                        set_zone_randomly  
+        end_random
+        start_random
+                percent_chance  50
+                        other_zone_avoidance_distance   7
+                percent_chance  50
+                        other_zone_avoidance_distance   10
+        end_random
+        border_fuzziness        15
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                2
+        spacing_to_other_terrain_types  2
+        land_percent                    1
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                10
+        spacing_to_other_terrain_types  2
+        land_percent                    10
+}
+
+/* PRIMARY CARBON LARGE CLUMP */
+if YAVIN
+        create_terrain TREE_C
+elseif NABOO_FOREST
+        create_terrain TREE_A
+elseif KASHYYYK
+        create_terrain TREE_G
+else
+        create_terrain TREE_D
+endif
+{
+        if YAVIN                
+                base_terrain    GRASS2
+        elseif NABOO_FOREST     
+                base_terrain    DIRT1
+        elseif KASHYYYK         
+                base_terrain    GRASS3
+        else                    
+                base_terrain    GRASS4
+        endif
+        spacing_to_other_terrain_types  5
+        land_percent                    9       
+        number_of_clumps                4       
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+/* PRIMARY CARBON SMALL CLUMP */
+if YAVIN
+        create_terrain TREE_C
+elseif NABOO_FOREST
+        create_terrain TREE_A
+elseif KASHYYYK
+        create_terrain TREE_G
+else
+        create_terrain TREE_D
+endif
+{
+        if YAVIN                
+                base_terrain    GRASS2
+        elseif NABOO_FOREST     
+                base_terrain    DIRT1
+        elseif KASHYYYK         
+                base_terrain    GRASS3
+        else                    
+                base_terrain    GRASS4
+        endif                   
+        spacing_to_other_terrain_types  5
+        land_percent                    8       
+        number_of_clumps                10      
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+/* PRIMARY PATCH */
+if KASHYYYK
+        create_terrain GRASS2
+else
+        create_terrain GRASS3
+endif
+{
+        if YAVIN                        
+                base_terrain            GRASS2
+        elseif NABOO_FOREST             
+                base_terrain            DIRT1
+        elseif KASHYYYK                 
+                base_terrain            GRASS3
+        else                            
+                base_terrain            GRASS4
+        endif                           
+        number_of_clumps                8 
+        spacing_to_other_terrain_types  0 
+        land_percent                    6 
+        set_scale_by_size               
+}
+
+/* SECONDARY CARBON */
+if YAVIN                                
+        create_terrain TREE_C           
+elseif NABOO_FOREST                     
+        create_terrain TREE_A           
+elseif KASHYYYK                         
+        create_terrain TREE_G           
+else                                    
+        create_terrain TREE_D           
+endif                                   
+{                                       
+        if YAVIN                        
+                base_terrain            GRASS2
+        elseif NABOO_FOREST             
+                base_terrain            DIRT1
+        elseif KASHYYYK                 
+                base_terrain            GRASS3
+        else                            
+                base_terrain            GRASS4
+        endif                           
+        spacing_to_other_terrain_types  3 
+        land_percent                    1 
+        number_of_clumps                3 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}
+
+/* SECONDARY PATCH */
+if NABOO_FOREST
+        create_terrain GRASS2           
+else                                    
+        create_terrain DIRT1            
+endif                                   
+{                                       
+        if YAVIN                        
+                base_terrain            GRASS2
+        elseif NABOO_FOREST             
+                base_terrain            DIRT1
+        elseif KASHYYYK                 
+                base_terrain            GRASS3
+        else                            
+                base_terrain            GRASS4
+        endif                           
+        number_of_clumps                24
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}
+
+/* TERTIARY PATCH */
+if YAVIN
+        create_terrain SAND_ROCK
+elseif NABOO_FOREST
+        create_terrain DIRT1
+elseif KASHYYYK
+        create_terrain GRASS3
+else
+        create_terrain ROCK2
+endif
+{
+        if YAVIN                        
+                base_terrain            GRASS2
+        elseif NABOO_FOREST             
+                base_terrain            DIRT1
+        elseif KASHYYYK                 
+                base_terrain            GRASS3
+        else                            
+                base_terrain            GRASS4
+        endif                           
+        number_of_clumps                30
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODB1
+else
+        if REYTHA
+                create_object ANIMAL-BANTHA
+        else
+                create_object ANIMAL-NERF
+        endif
+        {
+                if FOODB2                       
+                        number_of_objects       1   
+                elseif FOODB4                   
+                        number_of_objects       4   
+                else                            
+                        number_of_objects       2   
+                endif                           
+                number_of_groups                2   
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         19  
+                min_distance_group_placement    5   
+        }
+endif
+
+if FOODC1
+else
+        if REYTHA
+                start_random
+                        percent_chance 50
+                                create_object ANIMAL-FALUMPASET
+                        percent_chance 50
+                                create_object ANIMAL-RONTO
+                end_random
+        else
+                start_random
+                        percent_chance 50
+                                create_object ANIMAL-DEWBACK
+                        percent_chance 50
+                                create_object ANIMAL-FALUMPASET
+                end_random
+        endif                                   
+        {                                       
+                if FOODC2                       
+                        number_of_objects       1   
+                elseif FOODC4                   
+                        number_of_objects       4   
+                else                            
+                        number_of_objects       2   
+                endif                           
+                group_variance                  1   
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         35  
+                min_distance_group_placement    5   
+        }
+endif
+
+if YAVIN
+        create_object OBJ-TREE_C
+elseif NABOO_FOREST
+        create_object OBJ-TREE_A
+elseif KASHYYYK
+        create_object OBJ-TREE_G
+else
+        create_object OBJ-TREE_D
+endif
+{
+        number_of_objects       30
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects               4    
+        set_scaling_to_map_size         
+        max_distance_to_other_zones         4
+}
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               16  
+        min_distance_group_placement    5   
+        set_scaling_to_map_size         
+}
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+create_elevation        7
+{
+        if YAVIN
+                base_terrain    GRASS2
+        elseif NABOO_FOREST     
+                base_terrain    DIRT1
+        elseif KASHYYYK         
+                base_terrain    GRASS3
+        else                    
+                base_terrain    GRASS4
+        endif                   
+        number_of_clumps        14  
+        number_of_tiles         2000
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+<CLIFF_GENERATION>
+min_number_of_cliffs    5   
+max_number_of_cliffs    8   
+min_length_of_cliff     4   
+max_length_of_cliff     10  
+cliff_curliness         10  
+min_distance_cliffs     3     
+
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land
+{
+  replace_terrain       WATER_SHALLOW   WATER_SWAMP
+  replace_terrain       WATER_ROUGH     WATER_SWAMP
+  replace_terrain       WATER_DEEP      WATER_SWAMP
+   
+  terrain_cost          WATER_SHALLOW   7  
+  terrain_cost          WATER_ROUGH     9  
+  terrain_cost          WATER_DEEP      15 
+  terrain_cost          TREE_A          7  
+  terrain_cost          TREE_C          7  
+  terrain_cost          TREE_D          7  
+  terrain_cost          TREE_G          7  
+  terrain_cost          WATER_SWAMP     3  
+  terrain_cost          DIRT1           1  
+  terrain_cost          ROCK2           1  
+  terrain_cost          SAND_ROCK       1  
+  terrain_cost          GRASS2          2  
+  terrain_cost          GRASS3          2  
+  terrain_cost          GRASS4          2  
+  terrain_cost          SHORE           7  
+   
+  terrain_size          WATER_SHALLOW   2       1
+  terrain_size          WATER_ROUGH     2       1
+  terrain_size          WATER_DEEP      2       1 
+  terrain_size          GRASS2          0       0
+  terrain_size          GRASS3          0       0
+  terrain_size          GRASS4          0       0
+  terrain_size          DIRT1           0       0
+  terrain_size          TREE_A          0       0
+  terrain_size          TREE_C          0       0
+  terrain_size          TREE_D          0       0
+  terrain_size          TREE_G          0       0
+  terrain_size          SAND_ROCK       0       0
+  terrain_size          ROCK2           0       0
+}
+

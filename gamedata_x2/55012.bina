@@ -1,0 +1,324 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+#define DAGOBAH
+#define SWAMP
+
+base_terrain WATER_SHALLOW
+create_player_lands 
+{            
+        terrain_type                    DIRT2
+        land_percent                    65 
+        base_size                       12 
+        start_random                    
+                percent_chance 25       
+                        left_border     10 
+                percent_chance 25       
+                        right_border    10 
+                percent_chance 25       
+                        top_border      10 
+                percent_chance 25       
+                        bottom_border   10 
+        end_random                      
+        set_zone_randomly               
+        border_fuzziness                7  
+        other_zone_avoidance_distance   4  
+        clumping_factor                 15 
+}
+
+start_random
+        percent_chance 50
+                #define YODA_20
+        percent_chance 25
+                #define YODA_25
+        percent_chance 25
+                #define YODA_26
+end_random
+
+create_land 
+{
+        terrain_type                    DIRT2
+        land_percent                    1  
+        border_fuzziness                10 
+        other_zone_avoidance_distance   7  
+        land_id                         20 
+}
+
+create_land 
+{
+        terrain_type                    DIRT2
+        land_percent                    1  
+        border_fuzziness                10 
+        other_zone_avoidance_distance   7  
+        land_id                         25 
+}
+
+create_land 
+{
+        terrain_type                    DIRT2
+        land_percent                    1  
+        border_fuzziness                10 
+        other_zone_avoidance_distance   7  
+        land_id                         26 
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+create_terrain WATER_SWAMP
+{
+        base_terrain            WATER_SHALLOW
+        number_of_clumps        9      
+        land_percent            7      
+        set_scale_by_size       
+}
+
+create_terrain WATER_SWAMP
+{
+        base_terrain            WATER_SHALLOW
+        number_of_clumps        15     
+        land_percent            1      
+        set_scale_by_size       
+}
+
+create_terrain WATER_SWAMP
+{
+        base_terrain                    DIRT2
+        number_of_clumps                12  
+        land_percent                    4   
+        set_avoid_player_start_areas    
+        set_scale_by_size               
+}
+
+create_terrain WATER_SWAMP
+{
+        base_terrain                    DIRT2
+        number_of_clumps                20  
+        land_percent                    1   
+        set_avoid_player_start_areas    
+        set_scale_by_size               
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                20
+        spacing_to_other_terrain_types  2 
+        land_percent                    15
+}                                       
+  
+create_terrain WATER_DEEP               
+{                                       
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                10
+        spacing_to_other_terrain_types  2 
+        land_percent                    5 
+}                                       
+  
+/* PRIMARY FOREST */                    
+create_terrain TREE_F                   
+{                                       
+        base_terrain                    DIRT2
+        spacing_to_other_terrain_types  5 
+        land_percent                    9 
+        number_of_clumps                15
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+create_terrain TREE_F                   
+{                                       
+        base_terrain                    DIRT2
+        spacing_to_other_terrain_types  5 
+        land_percent                    1 
+        number_of_clumps                1 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain TREE_B                   
+{                                       
+        base_terrain                    DIRT2
+        spacing_to_other_terrain_types  5 
+        land_percent                    9 
+        number_of_clumps                15
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                     
+        
+create_terrain TREE_B                   
+{                                       
+        base_terrain                    DIRT2
+        spacing_to_other_terrain_types  5 
+        land_percent                    1 
+        number_of_clumps                1 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+/* SECONDARY PATCH */                   
+create_terrain GRASS1                   
+{                                       
+        base_terrain                    DIRT2
+        number_of_clumps                24
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+  
+/* TERTIARY PATCH */                    
+create_terrain GRASS1                   
+{                                       
+        base_terrain                    DIRT2
+        number_of_clumps                30
+        spacing_to_other_terrain_types  0 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+create_object YODA_HOVEL
+{
+        number_of_objects                       1
+        if YODA_20                              
+                place_on_specific_land_id       20
+        elseif                                  
+                place_on_specific_land_id       25
+        else                                    
+                place_on_specific_land_id       26
+        endif                                   
+}                                               
+
+if FOODA1
+else
+        create_object OBJ-FORAGE                
+        {                                       
+                number_of_groups                2    
+                if FOODA2                       
+                        number_of_objects       3   
+                elseif FOODA4                   
+                        number_of_objects       12  
+                else                            
+                        number_of_objects       6   
+                endif                           
+                group_placement_radius          3   
+                set_tight_grouping              
+                min_distance_to_players         40  
+                max_distance_to_players         120 
+                min_distance_group_placement    7   
+        }
+endif
+
+create_object OBJ-TREE_F
+{                               
+        number_of_objects       10
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+create_object OBJ-TREE_B
+{
+        number_of_objects       10
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+create_object OBJ-TREE_B
+{
+        number_of_objects       10
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+create_object OBJ-SEAFOODC
+{
+        number_of_objects       10
+        set_scaling_to_map_size
+        max_distance_to_other_zones         2
+}
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects       15
+        set_scaling_to_map_size 
+}
+
+create_object OBJ-PLANTF
+{
+        number_of_objects       70
+        min_distance_to_players 15
+}
+
+create_object OBJ-PLANTB
+{
+        number_of_objects       70
+        min_distance_to_players 15
+        terrain_to_place_on     DIRT2
+}
+
+create_object OBJ-ROCKS1
+{
+        number_of_objects       5
+        set_scaling_to_map_size
+        min_distance_to_players 15
+        terrain_to_place_on     GRASS1
+}
+
+create_object OBJ-WATERROCKS-SMALL1
+{
+        number_of_objects       10
+        set_scaling_to_map_size 
+        min_distance_to_players 15
+        terrain_to_place_on     WATER_SHALLOW
+}
+
+create_object OBJ-WATERROCKS-SMALL2
+{
+        number_of_objects       10
+        set_scaling_to_map_size 
+        min_distance_to_players 15
+        terrain_to_place_on     WATER_SHALLOW
+}
+
+start_random
+        percent_chance 50
+        #define M1
+end_random
+
+start_random
+        percent_chance 75
+        if M1
+                create_object MOUNTAIN1
+        else
+                create_object MOUNTAIN2
+        endif
+        {
+                number_of_objects       1
+                min_distance_to_players 40
+        }
+end_random
+
+start_random
+        percent_chance 50
+        #define M2
+end_random
+
+start_random
+        percent_chance 25
+        if M2
+                create_object MOUNTAIN2
+        else
+                create_object MOUNTAIN1
+        endif
+        {
+                number_of_objects       1
+                min_distance_to_players 40
+        }
+end_random
+

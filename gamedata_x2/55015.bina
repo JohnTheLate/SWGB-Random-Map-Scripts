@@ -1,0 +1,229 @@
+/* ************ SARAPIN ************ */
+/* FEB 22 02 */
+
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define SARAPIN	 
+
+base_terrain	ROCK4
+
+create_player_lands 
+{ 
+	terrain_type		ROCK4
+	land_percent        25
+	base_size           9
+	border_fuzziness    15
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+/* PRIMARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain					ROCK4
+	spacing_to_other_terrain_types	5
+	land_percent					10
+	number_of_clumps				12
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+create_terrain TREE_E
+{
+	base_terrain					ROCK4
+	spacing_to_other_terrain_types	5
+	land_percent					8
+	number_of_clumps				12
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+
+create_terrain LAVA
+{
+	base_terrain					ROCK4
+	number_of_clumps				16
+	spacing_to_other_terrain_types	0
+	land_percent					5
+	set_scale_by_size
+	set_avoid_player_start_areas
+}
+
+create_terrain ROCK1
+{
+	base_terrain					ROCK4
+	number_of_clumps				16
+	spacing_to_other_terrain_types	0
+	land_percent					15
+	set_scale_by_size
+}
+
+/* SECONDARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain					ROCK4
+	spacing_to_other_terrain_types	3
+	land_percent					1
+	number_of_clumps				5
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+create_terrain TREE_E
+{
+	base_terrain					ROCK4
+	spacing_to_other_terrain_types	3
+	land_percent					1
+	number_of_clumps				5
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* SECONDARY PATCH */
+
+create_terrain ROCK1
+{
+	base_terrain					ROCK4
+	number_of_clumps				24
+	spacing_to_other_terrain_types	1
+	land_percent					2
+	set_scale_by_size
+}
+
+create_terrain ROCK2
+{
+	base_terrain					ROCK4
+	number_of_clumps				24
+	spacing_to_other_terrain_types	1
+	land_percent					2
+	set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+#include_drs GBG_land_resources.inc 54103
+
+create_object ANIMAL-BANTHA
+{
+	number_of_objects				4
+	number_of_groups				3
+	set_loose_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			19
+}
+
+if FOODD1
+else
+	create_object ANIMAL-MYNOCK
+	{
+		if FOODD2
+			number_of_objects		4
+		elseif FOODD4
+			number_of_objects		8
+		else
+			number_of_objects		6
+		endif
+		number_of_groups			2
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_to_players    19
+	}
+endif
+
+create_object ANIMAL_VAAPAD
+{
+	number_of_objects				7
+	set_gaia_object_only
+	min_distance_to_players			35
+	min_distance_group_placement	15
+	set_avoid_player_start_areas
+	set_scaling_to_map_size
+}
+
+create_object OBJ-VOLROCKS
+{
+	number_of_objects				15
+	set_gaia_object_only
+	min_distance_to_players			35
+	min_distance_group_placement	10
+	set_avoid_player_start_areas
+}
+
+create_object OBJ-VOLCANO1
+{
+	number_of_objects				1
+	set_gaia_object_only
+	min_distance_to_players			35
+	set_avoid_player_start_areas
+}
+
+create_object OBJ-VOLCANO2
+{
+	number_of_objects				1
+	set_gaia_object_only
+	min_distance_to_players			35
+	set_avoid_player_start_areas
+}
+
+create_object BLDG_ENRGYCOL
+{
+	number_of_objects				2
+	set_gaia_object_only
+	min_distance_to_players			35
+	min_distance_group_placement	15
+	set_avoid_player_start_areas
+}
+
+create_object BLDG_ENRGYDRL
+{
+	number_of_objects				8
+	set_gaia_object_only
+	min_distance_to_players			35
+	min_distance_group_placement	10
+	set_avoid_player_start_areas
+}
+
+/* ****************************************************** */
+
+<ELEVATION_GENERATION>
+
+create_elevation        7
+{
+	base_terrain		ROCK4
+	number_of_clumps 	20
+	number_of_tiles 	6000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+/* ****************************************************** */
+
+<CLIFF_GENERATION>
+min_number_of_cliffs 2
+max_number_of_cliffs 10
+min_length_of_cliff  2
+max_length_of_cliff  7
+cliff_curliness		 1
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land 
+{
+	replace_terrain ROCK4			ROCK1
+	terrain_cost    ROCK4			2
+	terrain_size    ROCK4			2       1
+}

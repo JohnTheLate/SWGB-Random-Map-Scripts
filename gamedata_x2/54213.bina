@@ -1,0 +1,389 @@
+/* ************ PLANETS AND MOONS ************ */
+/* 03 JUL 01 */
+
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement  /* note this is only currently valid entry */
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define GEDDES
+
+#define MIGRATION
+
+base_terrain SPACE
+
+create_player_lands 
+{ 
+	terrain_type                    ROCK1
+	land_percent                    30
+	base_size                       9
+	border_fuzziness                7
+	other_zone_avoidance_distance   2
+	clumping_factor                 15
+}
+
+/* ***FREE BIG ISLAND*** */
+create_land 
+{
+	terrain_type                    ROCK1
+	land_percent                    60
+	border_fuzziness                10
+	other_zone_avoidance_distance   2 
+	land_id                         21
+
+	start_random
+		percent_chance 50
+		left_border					13
+		right_border			    10
+		percent_chance 50
+		left_border                 10
+		right_border                13
+	end_random
+	start_random
+		percent_chance 50
+		top_border                  13
+		bottom_border               10
+		percent_chance 50
+		top_border					10
+		bottom_border               13
+	end_random
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+/* PRIMARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain                   ROCK1
+	spacing_to_other_terrain_types 5
+	land_percent                   6
+	number_of_clumps               14
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+
+create_terrain ROCK2
+{
+	base_terrain                   ROCK1
+	number_of_clumps               8
+	spacing_to_other_terrain_types 0
+	land_percent                   9
+	set_scale_by_size
+}
+
+/* SECONDARY CARBON */
+
+create_terrain ROCK_CARBON
+{
+	base_terrain                   ROCK1
+	spacing_to_other_terrain_types 3
+	land_percent                   1
+	number_of_clumps               3
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* SECONDARY PATCH */
+
+create_terrain SAND1
+{
+	base_terrain                   ROCK1
+	number_of_clumps               24
+	spacing_to_other_terrain_types 0
+	land_percent                   2
+	set_scale_by_size
+}
+
+/* SECONDARY PATCH */
+
+create_terrain SNOW_ROCK
+{
+	base_terrain				ROCK1
+	number_of_clumps				5
+	spacing_to_other_terrain_types	1
+	land_percent					7
+	set_scale_by_size
+}
+
+/* TERTIARY PATCH */
+
+create_terrain ROCK2
+{
+	base_terrain                   ROCK1
+	number_of_clumps               30
+	spacing_to_other_terrain_types 0
+	land_percent                   2
+	set_scale_by_size
+}
+
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+/* PLAYER START OBJECTS */
+
+#include_drs GBG_land_resources.inc 54103
+
+create_object UNIT-AIRTRANS
+{
+	number_of_objects             1
+	set_place_for_every_player
+	min_distance_to_players       3
+	max_distance_to_players       6
+	match_player_civ
+}
+
+create_object OBJ-FOODCRT
+{
+        number_of_objects               6   
+        group_placement_radius          3   
+        set_tight_grouping              
+        set_gaia_object_only            
+        set_place_for_every_player      
+        min_distance_to_players         10  
+        max_distance_to_players         14  
+        min_distance_group_placement    6   
+        max_distance_to_other_zones     7
+}
+
+create_object OBJ-CARBONC
+{
+	number_of_objects          30
+	set_gaia_object_only
+	min_distance_to_players    8
+	set_scaling_to_map_size
+}
+
+/* ****IN THE NEW WORLD**** */
+
+if FOODD1
+else
+	create_object ANIMAL-MYNOCK
+	{
+		if FOODD2
+			number_of_objects		1
+		elseif FOODD4
+			number_of_objects		4
+		else
+			number_of_objects		2
+		endif
+		group_placement_radius		3
+		set_loose_grouping
+		set_gaia_object_only
+		max_distance_to_players		10
+		place_on_specific_land_id	21
+	}
+endif
+
+create_object OBJ-NOVA
+{
+	number_of_groups				1   
+	number_of_objects				6
+	group_placement_radius			2
+	set_tight_grouping
+	set_gaia_object_only
+	set_scaling_to_player_number
+	min_distance_group_placement	10
+	min_distance_to_players			25
+	place_on_specific_land_id		21
+}
+
+create_object OBJ-ORE1
+{
+	number_of_groups				1    
+	number_of_objects				6
+	group_placement_radius			2
+	set_tight_grouping
+	set_gaia_object_only
+	set_scaling_to_player_number
+	min_distance_to_players			25
+	min_distance_group_placement	10
+	place_on_specific_land_id		21
+}
+
+/* RESOURCES BY MAP */
+
+if LARGE_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				1    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+if HUGE_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				2    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+if GIGANTIC_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				3    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+if LARGE_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				1    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+if HUGE_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				2    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+if GIGANTIC_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				3    
+		number_of_objects				6
+		group_variance					1
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_group_placement	7
+		place_on_specific_land_id		21
+	}
+endif
+
+create_object ASTEROID-CRATER-L
+{
+	terrain_to_place_on			ROCK2
+	number_of_objects			1
+	number_of_groups			3
+	set_gaia_object_only
+	group_placement_radius		15
+	min_distance_to_players		25
+	set_scaling_to_map_size
+}
+
+create_object ASTEROID-CRATER-M
+{
+	terrain_to_place_on			ROCK2
+	number_of_objects			1
+	number_of_groups			15
+	set_gaia_object_only
+	group_placement_radius		6
+	min_distance_to_players		15
+	set_scaling_to_map_size
+}
+
+create_object ASTEROID-CRATER-S
+{
+	terrain_to_place_on			ROCK2
+	number_of_objects			3
+	number_of_groups			6
+	group_variance				4  
+	group_placement_radius		6
+	set_gaia_object_only
+	min_distance_group_placement	5
+	min_distance_to_players		10 
+	set_scaling_to_map_size
+}
+
+/* ****************************************************** */
+
+<ELEVATION_GENERATION>
+
+create_elevation        2
+{
+	base_terrain			ROCK1
+	number_of_clumps 		1
+	number_of_tiles 		20000
+	set_scale_by_size           
+}
+
+create_elevation        3
+{
+	base_terrain			ROCK1
+	number_of_clumps 		20
+	number_of_tiles 		1000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+create_elevation        4
+{
+	base_terrain			ROCK1
+	number_of_clumps 		18
+	number_of_tiles 		1000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+create_elevation        5
+{
+	base_terrain			ROCK1
+	number_of_clumps 		16
+	number_of_tiles 		1000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+create_elevation        6
+{
+	base_terrain			ROCK1
+	number_of_clumps 		14
+	number_of_tiles 		1000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+create_elevation        7
+{
+	base_terrain			ROCK1
+	number_of_clumps 		14
+	number_of_tiles 		2000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+

@@ -1,0 +1,127 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+#define REYTHA
+
+base_terrain            GRASS4
+create_player_lands 
+{ 
+        terrain_type            GRASS4
+        land_percent            25  
+        base_size               9   
+        border_fuzziness        15  
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+create_terrain TREE_D
+{
+        base_terrain                    GRASS4
+        spacing_to_other_terrain_types  5 
+        land_percent                    12
+        number_of_clumps                20
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain GRASS3                   
+{                                       
+        base_terrain                    GRASS4
+        number_of_clumps                50
+        spacing_to_other_terrain_types  1 
+        land_percent                    14
+        set_scale_by_size               
+}                                       
+  
+ create_terrain DIRT1                   
+{                                       
+        base_terrain                    GRASS4
+        number_of_clumps                8 
+        spacing_to_other_terrain_types  1 
+        land_percent                    5 
+        set_scale_by_size               
+}                                       
+  
+create_terrain DIRT1                    
+{                                       
+        base_terrain                    GRASS4
+        number_of_clumps                12
+        spacing_to_other_terrain_types  1 
+        land_percent                    3 
+        set_scale_by_size               
+}                                       
+  
+create_terrain ROCK2                    
+{                                       
+        base_terrain                    GRASS4
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODD1
+else
+        create_object ANIMAL-KAADU              
+        {                                       
+                if FOODD2                       
+                        number_of_objects       2     
+                elseif FOODD4                   
+                        number_of_objects       8     
+                else                            
+                        number_of_objects       4     
+                endif                           
+                group_variance                  1     
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         19    
+        }                                       
+endif
+
+create_object OBJ-TREE_D
+{
+        number_of_objects       30
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+
+create_object OBJ-ORE1                  
+{                                       
+        number_of_groups                2    
+        number_of_objects               4   
+        group_variance                  1   
+        group_placement_radius          2   
+        set_tight_grouping              
+        min_distance_to_players         40  
+        min_distance_group_placement    9   
+}
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+
+create_elevation        7
+{
+        base_terrain            GRASS4
+        number_of_clumps        15   
+        number_of_tiles         2000 
+        set_scale_by_groups     
+        set_scale_by_size       
+}
+
+/* ****************************************************** */
+<CLIFF_GENERATION>
+min_number_of_cliffs    30 
+max_number_of_cliffs    60 
+min_length_of_cliff     5  
+max_length_of_cliff     20
+

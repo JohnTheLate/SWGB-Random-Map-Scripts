@@ -1,0 +1,169 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+ start_random                    
+        percent_chance 50
+                #define TATOOINE         
+        percent_chance 50
+                #define ZALORIIS         
+end_random
+
+if TATOOINE
+        base_terrain    SAND1
+else
+        base_terrain    ROCK3
+endif
+
+create_player_lands 
+{ 
+        if TATOOINE
+                terrain_type    SAND1
+        else
+                terrain_type    ROCK3
+        endif                   
+        land_percent            25  
+        base_size               9   
+        border_fuzziness        15  
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+if ZALORIIS
+        create_terrain TREE_F
+else
+        create_terrain ROCK_CARBON
+endif
+{
+        if TATOOINE
+                base_terrain            SAND1
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        spacing_to_other_terrain_types  5 
+        land_percent                    12
+        number_of_clumps                12
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain SAND2                    
+{                                       
+        if TATOOINE                     
+                base_terrain            SAND1
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                16
+        spacing_to_other_terrain_types  0 
+        land_percent                    20
+        set_scale_by_size               
+}                                       
+  
+if ZALORIIS                             
+        create_terrain TREE_F           
+else                                    
+        create_terrain ROCK_CARBON      
+endif                                   
+{                                       
+        if TATOOINE                     
+                base_terrain            SAND1
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        spacing_to_other_terrain_types  3 
+        land_percent                    1 
+        number_of_clumps                5 
+        set_avoid_player_start_areas    
+        set_scale_by_groups             
+}                                       
+  
+create_terrain SAND_ROCK                
+{                                       
+        if TATOOINE                     
+                base_terrain            SAND1
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+  
+if TATOOINE                             
+        create_terrain SAND2            
+else                                    
+        create_terrain SAND1            
+endif                                   
+{                                       
+        if TATOOINE                     
+                base_terrain            SAND1
+        else                            
+                base_terrain            ROCK3
+        endif                           
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODD1
+else
+        create_object ANIMAL-EOPIE
+        {                                       
+                if FOODD2                       
+                        number_of_objects       2      
+                elseif FOODD4                   
+                        number_of_objects       8      
+                else                            
+                        number_of_objects       4      
+                endif                           
+                group_variance                  1      
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         19     
+        }
+endif
+
+if ZALORIIS
+        create_object OBJ-TREE_F
+{
+        number_of_objects       30
+        set_scaling_to_map_size 
+        min_distance_to_players 8
+}
+endif
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+create_elevation        7
+{
+        if TATOOINE
+                base_terrain    SAND1
+        else                    
+                base_terrain    ROCK3
+        endif                   
+        number_of_clumps        20
+        number_of_tiles         6000
+        set_scale_by_groups     
+        set_scale_by_size           
+}                               
+
+/* ****************************************************** */
+<CLIFF_GENERATION>
+min_number_of_cliffs    10 
+max_number_of_cliffs    15 
+min_length_of_cliff     3  
+max_length_of_cliff     10
+

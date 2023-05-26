@@ -1,0 +1,438 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+start_random
+  percent_chance 30
+        #define ZALORIIS
+  percent_chance 30
+        #define ALARIS
+  percent_chance 40
+        #define NABOO_GRASS
+end_random
+
+base_terrain WATER_SHALLOW
+
+create_player_lands 
+{            
+        if ZALORIIS
+                terrain_type    ROCK3
+        elseif ALARIS
+                terrain_type    GRASS2
+        else           
+                terrain_type    GRASS1
+        endif
+        land_percent            45
+        base_size               12
+        border_fuzziness        15
+        start_random
+                percent_chance  50
+                        left_border     7
+                        right_border    9
+                percent_chance   50
+                        left_border     9
+                        right_border    7
+        end_random
+        start_random
+                percent_chance  50
+                        top_border      7
+                        bottom_border   9
+                percent_chance  50
+                        top_border      9
+                        bottom_border   7
+        end_random
+        set_zone_by_team
+        other_zone_avoidance_distance   22
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+/* MIXING WATER_SHALLOW */
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                10
+        spacing_to_other_terrain_types  2
+        land_percent                    40
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                8
+        spacing_to_other_terrain_types  3
+        land_percent                    20
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_DEEP
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_SHALLOW
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+/* PRIMARY CARBON */
+if ZALORIIS             
+        create_terrain  TREE_F
+elseif ALARIS
+        create_terrain  ROCK_CARBON
+else
+        create_terrain  TREE_D
+endif
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else
+                base_terrain    GRASS1
+        endif
+        spacing_to_other_terrain_types  5
+        land_percent                    8
+        number_of_clumps                8
+        set_avoid_player_start_areas     
+        set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+if ZALORIIS
+        create_terrain  SAND2
+elseif ALARIS
+        create_terrain  GRASS3
+else
+        create_terrain  GRASS2
+endif
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else
+                base_terrain    GRASS1
+        endif
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1
+        land_percent                    9
+        set_scale_by_size
+}
+
+/* SECONDARY CARBON */
+if ZALORIIS
+        create_terrain  ROCK_CARBON
+elseif ALARIS
+        create_terrain  TREE_C
+else
+        create_terrain  TREE_A
+endif
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else
+                base_terrain    GRASS1
+        endif
+        spacing_to_other_terrain_types  3
+        land_percent                    1
+        number_of_clumps                3
+        set_avoid_player_start_areas     
+        set_scale_by_groups
+}
+
+/* SECONDARY PATCH */
+if ZALORIIS
+        create_terrain  SAND_ROCK
+else
+        create_terrain  DIRT1
+endif
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else
+                base_terrain    GRASS1
+        endif
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1
+        land_percent                    2
+        set_scale_by_size
+}
+
+/* TERTIARY PATCH */
+if ZALORIIS
+        create_terrain  SAND1
+else
+        create_terrain  SAND_ROCK
+endif
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else
+                base_terrain    GRASS1
+        endif
+        number_of_clumps                30
+        spacing_to_other_terrain_types  1
+        land_percent                    2
+        set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODD1
+else
+        if ZALORIIS
+                create_object   ANIMAL-EOPIE
+        else
+                start_random
+                        percent_chance 50
+                                create_object   ANIMAL-KAADU
+                        percent_chance 50
+                                create_object   ANIMAL-EOPIE
+                end_random
+        endif
+        {
+                if FOODD2
+                        number_of_objects       3
+                elseif FOODD4
+                        number_of_objects       12
+                else
+                        number_of_objects       6
+                endif
+                number_of_groups                2
+                set_loose_grouping
+                set_gaia_object_only
+                set_place_for_every_player
+                min_distance_to_players         35
+                min_distance_group_placement    5       
+        }
+endif
+
+if FOODC1
+else
+        if NABOO_GRASS
+                create_object   ANIMAL-FALUMPASET
+        elseif ALARIS
+                start_random
+                        percent_chance 50
+                                create_object   ANIMAL-DEWBACK
+                        percent_chance 50
+                                create_object   ANIMAL-FALUMPASET
+                end_random
+        else
+                start_random
+                        percent_chance 50
+                                create_object   ANIMAL-RONTO
+                        percent_chance 50
+                                create_object   ANIMAL-DEWBACK
+                end_random
+        endif
+        {
+                if FOODC2
+                        number_of_objects       1
+                elseif FOODC4
+                        number_of_objects       4
+                else
+                        number_of_objects       2
+                endif
+                set_loose_grouping
+                set_gaia_object_only
+                set_place_for_every_player
+                min_distance_to_players         35
+                min_distance_group_placement    5
+        }
+endif
+
+if ZALORIIS
+        create_object   OBJ-TREE_F
+elseif ALARIS
+        create_object   OBJ-TREE_C
+else
+        create_object   OBJ-TREE_A
+endif
+{
+        number_of_objects       20
+        set_scaling_to_map_size
+        min_distance_to_players 8
+}
+
+create_object OBJ-SEAFOODC
+{
+        number_of_objects               5
+        set_scaling_to_map_size
+        max_distance_to_other_zones         4
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects               10
+        set_scaling_to_map_size
+        max_distance_to_other_zones         4
+}
+
+create_object OBJ-SEAFOODB
+{
+        number_of_objects               10
+        set_scaling_to_map_size
+        max_distance_to_other_zones         4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               25
+        set_scaling_to_map_size
+        min_distance_group_placement    3
+}
+
+create_object OBJ-SEAFOODA
+{
+        number_of_groups                5
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones         7
+} 
+
+create_object OBJ-SEAFOODB
+{
+        number_of_groups                5
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones         7
+} 
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+
+create_elevation        7
+{
+        if ZALORIIS
+                base_terrain    ROCK3
+        elseif ALARIS
+                base_terrain    GRASS2
+        else           
+                base_terrain    GRASS1
+        endif
+        number_of_clumps        14
+        number_of_tiles         1200
+        set_scale_by_groups
+        set_scale_by_size           
+}
+
+<CLIFF_GENERATION>
+min_number_of_cliffs    3
+max_number_of_cliffs    5
+min_length_of_cliff     4
+max_length_of_cliff     8
+cliff_curliness         10
+min_distance_cliffs     3     
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_teams_lands
+{
+        if NABOO_GRASS
+                replace_terrain GRASS1          PATH1
+                replace_terrain GRASS2          PATH1
+                replace_terrain DIRT1           PATH1
+                replace_terrain SAND_ROCK       PATH1
+                replace_terrain TREE_A          PATH1
+                replace_terrain WATER_SHALLOW   GRASS1
+                replace_terrain WATER_ROUGH     GRASS1
+                replace_terrain WATER_DEEP      GRASS1
+                replace_terrain SHORE           GRASS1
+        elseif ALARIS
+                replace_terrain GRASS2          PATH2
+                replace_terrain GRASS3          PATH2
+                replace_terrain DIRT1           PATH2
+                replace_terrain SAND_ROCK       PATH2
+                replace_terrain TREE_D          PATH2
+                replace_terrain WATER_SHALLOW   GRASS2
+                replace_terrain WATER_ROUGH     GRASS2
+                replace_terrain WATER_DEEP      GRASS2
+                replace_terrain SHORE           GRASS2
+        else
+                replace_terrain ROCK3           PATH3
+                replace_terrain SAND2           PATH3
+                replace_terrain SAND1           PATH3
+                replace_terrain SAND_ROCK       PATH3
+                replace_terrain ROCK_CARBON     PATH3
+                replace_terrain WATER_SHALLOW   ROCK3
+                replace_terrain WATER_ROUGH     ROCK3
+                replace_terrain WATER_DEEP      ROCK3
+                replace_terrain SHORE           ROCK3
+        endif
+
+        terrain_cost    WATER_SHALLOW   5
+        terrain_cost    WATER_ROUGH     7
+        terrain_cost    WATER_DEEP      15
+        terrain_cost    TREE_A          7
+        terrain_cost    TREE_C          7
+        terrain_cost    ROCK_CARBON     7
+        terrain_cost    SAND_ROCK       5
+        terrain_cost    GRASS1          2
+        terrain_cost    GRASS2          2
+        terrain_cost    GRASS3          2
+        terrain_cost    DIRT1           2
+        terrain_cost    SAND1           2
+        terrain_cost    SAND2           2
+        terrain_cost    ROCK3           2
+        terrain_cost    SHORE           4
+        terrain_cost    PATH1           1
+        terrain_cost    PATH2           1
+        terrain_cost    PATH3           1
+
+        terrain_size    WATER_SHALLOW   6       1
+        terrain_size    WATER_DEEP      6       1
+        terrain_size    GRASS1          1       0
+        terrain_size    GRASS2          1       0
+        terrain_size    GRASS3          1       0
+        terrain_size    ROCK3           1       0
+        terrain_size    TREE_A          3       1
+        terrain_size    TREE_C          3       1
+        terrain_size    ROCK_CARBON     3       1
+        terrain_size    DIRT1           0       0
+        terrain_size    SAND1           0       0
+        terrain_size    SAND2           0       0
+        terrain_size    SAND_ROCK       0       0
+        terrain_size    PATH1           0       0
+        terrain_size    PATH2           0       0
+        terrain_size    PATH3           0       0
+}
+

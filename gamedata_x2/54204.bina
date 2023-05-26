@@ -1,0 +1,336 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+start_random
+        percent_chance 25
+                #define NABOO_FOREST
+        percent_chance 25
+                #define ALARIS
+        percent_chance 25
+                #define ENDOR
+        percent_chance 25
+                #define REYTHA
+end_random
+
+if NABOO_FOREST
+        base_terrain DIRT1
+elseif ALARIS
+        base_terrain GRASS2
+elseif REYTHA
+        base_terrain GRASS4
+else
+        base_terrain DIRT1
+endif
+create_player_lands                     
+{                                       
+        if ALARIS                       
+                terrain_type            GRASS2
+        elseif REYTHA                   
+                terrain_type            GRASS4
+        else                            
+                terrain_type            DIRT1
+        endif                           
+        land_percent                    50 
+        base_size                       13 
+        other_zone_avoidance_distance   6  
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+if NABOO_FOREST
+        create_terrain TREE_A
+elseif ALARIS
+        create_terrain TREE_C
+elseif REYTHA
+        create_terrain TREE_D
+else
+        create_terrain TREE_G
+endif
+{
+        if ALARIS                       
+                base_terrain            GRASS2
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            DIRT1
+        endif                           
+        spacing_to_other_terrain_types  5 
+        land_percent                    60
+        number_of_clumps                44
+        set_avoid_player_start_areas    
+}                                       
+  
+if ALARIS                               
+        create_terrain                  GRASS2
+elseif REYTHA                           
+        create_terrain                  GRASS4
+else                                    
+        create_terrain                  DIRT1
+endif                                   
+{                                       
+        if NABOO_FOREST                 
+                base_terrain            TREE_A
+        elseif ALARIS                   
+                base_terrain            TREE_C
+        elseif REYTHA                   
+                base_terrain            TREE_D
+        else                            
+                base_terrain            TREE_G
+        endif                           
+        spacing_to_other_terrain_types  1 
+        land_percent                    7 
+        number_of_clumps                9 
+        set_avoid_player_start_areas    
+}                                       
+  
+create_terrain LEAVES                   
+{                                       
+        if ALARIS                       
+                base_terrain            GRASS2
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            DIRT1
+        endif                           
+        spacing_to_other_terrain_types  1 
+        land_percent                    3 
+        number_of_clumps                26
+}                                       
+  
+create_terrain LEAVES                   
+{                                       
+        if ALARIS                       
+                base_terrain            GRASS2
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            DIRT1
+        endif                           
+        spacing_to_other_terrain_types  1 
+        land_percent                    1 
+        number_of_clumps                40
+}                                       
+  
+if ENDOR                                
+   create_terrain GRASS2                
+else                                    
+   create_terrain GRASS3                
+endif                                   
+{                                       
+        if ALARIS                       
+                base_terrain            GRASS2
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            DIRT1
+        endif                           
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1 
+        land_percent                    2 
+        set_scale_by_size               
+}                                       
+  
+create_terrain WATER_SHALLOW            
+{                                       
+        if ALARIS                       
+                base_terrain            GRASS2
+        elseif REYTHA                   
+                base_terrain            GRASS4
+        else                            
+                base_terrain            DIRT1
+        endif                           
+        spacing_to_other_terrain_types  1 
+        land_percent                    1 
+        number_of_clumps                3 
+        set_avoid_player_start_areas    
+        set_flat_terrain_only           
+}                                       
+  
+create_terrain WATER_ROUGH              
+{                                       
+        base_terrain                    WATER_SHALLOW
+        spacing_to_other_terrain_types  2 
+        land_percent                    1 
+        number_of_clumps                3 
+        set_avoid_player_start_areas    
+        set_flat_terrain_only           
+}                                       
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+#include_drs GBG_land_resources.inc 54103
+
+if FOODC1
+else
+        if REYTHA
+                start_random
+                        percent_chance 50
+                                create_object ANIMAL-FALUMPASET
+                        percent_chance 50
+                                create_object ANIMAL-RONTO
+                end_random
+        else
+                start_random
+                        percent_chance 50
+                                create_object ANIMAL-DEWBACK
+                        percent_chance 50
+                                create_object ANIMAL-FALUMPASET
+                end_random
+        endif
+        {
+                if FOODC2                       
+                        number_of_objects       1   
+                elseif FOODC4                   
+                        number_of_objects       6   
+                else                            
+                        number_of_objects       3   
+                endif                           
+                group_variance                  1   
+                set_loose_grouping              
+                set_gaia_object_only            
+                set_place_for_every_player      
+                min_distance_to_players         35  
+                min_distance_group_placement    5   
+        }
+endif
+
+if NABOO_FOREST
+        create_object OBJ-TREE_A
+elseif ALARIS
+        create_object OBJ-TREE_C
+elseif REYTHA
+        create_object OBJ-TREE_D
+else
+        create_object OBJ-TREE_G
+endif
+{
+  number_of_objects             100
+  min_distance_to_players       6 
+  min_distance_group_placement  2 
+}
+
+create_object OBJ-SEAFOOD2
+{
+  number_of_objects             3
+  set_scaling_to_map_size
+}
+
+/* ****************************************************** */
+<ELEVATION_GENERATION>
+
+create_elevation        4
+{
+        if ALARIS            
+                base_terrain    GRASS2
+        elseif REYTHA           
+                base_terrain    GRASS4
+        else                    
+                base_terrain    DIRT1
+        endif                   
+        number_of_clumps        10  
+        number_of_tiles         700 
+        set_scale_by_groups     
+}
+
+<ELEVATION_GENERATION>
+create_elevation        7
+{
+        if ALARIS               
+                base_terrain    GRASS2
+        elseif REYTHA           
+                base_terrain    GRASS4
+        else                    
+                base_terrain    DIRT1
+        endif                   
+        number_of_clumps        7   
+        number_of_tiles         4300
+        set_scale_by_groups     
+}
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land 
+{
+        replace_terrain GRASS4          GRASS4
+        replace_terrain GRASS2          GRASS2
+        replace_terrain DIRT1           DIRT1
+        replace_terrain LEAVES          LEAVES
+        replace_terrain WATER_SHALLOW   WATER_SWAMP
+        replace_terrain WATER_DEEP      WATER_SWAMP
+        replace_terrain TREE_A          DIRT1
+        replace_terrain TREE_C          GRASS2
+        replace_terrain TREE_D          GRASS4
+        replace_terrain TREE_G          DIRT1
+   
+        terrain_cost    WATER_SHALLOW   5  
+        terrain_cost    WATER_ROUGH     7  
+        terrain_cost    TREE_A          2  
+        terrain_cost    TREE_C          2  
+        terrain_cost    TREE_D          2  
+        terrain_cost    TREE_G          2  
+        terrain_cost    GRASS4          1  
+        terrain_cost    GRASS2          1  
+        terrain_cost    DIRT1           1  
+        terrain_cost    LEAVES          2  
+        terrain_cost    SHORE           4  
+   
+        terrain_size    WATER_SHALLOW   2       1
+        terrain_size    WATER_ROUGH     2       1
+        terrain_size    GRASS4          0       0
+        terrain_size    GRASS2          0       0
+        terrain_size    DIRT1           0       0
+        terrain_size    LEAVES          0       0
+        terrain_size    TREE_A          3       1
+        terrain_size    TREE_C          3       1
+        terrain_size    TREE_D          3       1
+        terrain_size    TREE_G          3       1
+        terrain_size    SHORE           0       0
+}
+
+create_connect_teams_lands
+{
+        replace_terrain GRASS4                  PATH2
+        replace_terrain GRASS2                  PATH2
+        replace_terrain DIRT1               PATH2
+        replace_terrain LEAVES                  PATH2
+        replace_terrain WATER_SHALLOW   WATER_SWAMP
+        replace_terrain WATER_ROUGH     WATER_SWAMP 
+        replace_terrain TREE_A                  PATH2
+        replace_terrain TREE_C                  PATH2
+        replace_terrain TREE_D              PATH2
+        replace_terrain TREE_G                  SHORE
+
+        terrain_cost    WATER_SHALLOW   7
+        terrain_cost    WATER_ROUGH     7 
+        terrain_cost    TREE_A                  7
+        terrain_cost    TREE_C                  7
+        terrain_cost    TREE_D                  7
+        terrain_cost    TREE_G                  7
+        terrain_cost    GRASS4                  2
+        terrain_cost    GRASS2                  2
+        terrain_cost    DIRT1                   2
+        terrain_cost    LEAVES                  2
+        terrain_cost    SHORE                   4
+        terrain_cost    PATH2                   1
+
+        terrain_size    WATER_SHALLOW   2       1
+        terrain_size    WATER_ROUGH     2       1
+        terrain_size    GRASS4                  1       0
+        terrain_size    GRASS2                  1       0
+        terrain_size    DIRT1                   1       0
+        terrain_size    LEAVES                  1       0
+        terrain_size    TREE_A                  1       0
+        terrain_size    TREE_C                  1       0
+        terrain_size    TREE_D                  1       0
+        terrain_size    TREE_G                  1       0
+        terrain_size    SHORE                   0       0
+        terrain_size    PATH2                   0       0
+}
+

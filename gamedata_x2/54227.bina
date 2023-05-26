@@ -1,0 +1,875 @@
+/* ************ RAIDERS ************ */
+/* 03 JUL 01 */
+
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+  random_placement  /* note this is only currently valid entry */
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+base_terrain WATER_SHALLOW
+
+start_random
+	percent_chance 25
+	#define ZALORIIS
+	percent_chance 25
+	#define NABOO_FOREST
+	percent_chance 25
+	#define KRANT
+	percent_chance 25
+	#define ALARIS
+end_random
+
+#define RAIDERS
+
+create_player_lands 
+{ 
+	if ZALORIIS
+		terrain_type					ROCK3
+	elseif NABOO_FOREST
+		terrain_type					DIRT1
+	elseif KRANT
+		terrain_type					GRASS3
+	else           
+		terrain_type					GRASS2
+	endif
+	start_random
+		percent_chance 50
+		land_percent					52
+		percent_chance 50
+		land_percent					60
+	end_random
+	base_size							8
+	start_random
+		percent_chance 25
+		left_border						8
+		top_border						8
+		bottom_border					8
+		percent_chance 25
+		left_border						8
+		top_border						8
+		right_border					8
+		percent_chance 25
+		right_border					8
+		left_border						8
+		bottom_border					8
+		percent_chance 25
+		right_border					8
+		top_border						8
+		bottom_border					8
+	end_random
+	border_fuzziness					15
+	zone								1
+	other_zone_avoidance_distance		7
+	clumping_factor						15
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+/* MIXING WATER_SHALLOW */
+
+create_terrain WATER_ROUGH
+{
+	base_terrain WATER_SHALLOW
+	number_of_clumps               10
+	spacing_to_other_terrain_types 2
+	land_percent 40
+}
+
+create_terrain WATER_ROUGH
+{
+	base_terrain WATER_SHALLOW
+	number_of_clumps               30
+	spacing_to_other_terrain_types 1
+	land_percent 1
+}
+
+create_terrain WATER_DEEP
+{
+	base_terrain WATER_ROUGH
+	number_of_clumps               8
+	spacing_to_other_terrain_types 3
+	land_percent 20
+}
+
+create_terrain WATER_DEEP
+{
+	base_terrain WATER_ROUGH
+	number_of_clumps               30
+	spacing_to_other_terrain_types 1
+	land_percent 1
+}
+
+create_terrain WATER_ROUGH
+{
+	base_terrain WATER_DEEP
+	number_of_clumps               30
+	spacing_to_other_terrain_types 1
+	land_percent 1
+}
+
+create_terrain WATER_SHALLOW
+{
+	base_terrain WATER_ROUGH
+	number_of_clumps               30
+	spacing_to_other_terrain_types 1
+	land_percent 1
+}
+
+/* PRIMARY CARBON */
+
+if ZALORIIS
+	create_terrain ROCK_CARBON
+elseif NABOO_FOREST
+	create_terrain TREE_A
+elseif KRANT
+	create_terrain TREE_D
+else
+	create_terrain TREE_C
+endif
+{
+	if ZALORIIS
+		base_terrain				ROCK3
+	elseif NABOO_FOREST
+		base_terrain				DIRT1
+	elseif KRANT
+		base_terrain				GRASS3
+	else
+		base_terrain				GRASS2
+	endif
+	spacing_to_other_terrain_types	5
+	land_percent					9
+	number_of_clumps				10
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+
+if ZALORIIS
+	create_terrain SAND2
+elseif KRANT
+	create_terrain GRASS2
+else
+	create_terrain GRASS3
+endif
+{
+	if ZALORIIS
+		base_terrain				ROCK3
+	elseif NABOO_FOREST
+		base_terrain				DIRT1
+	elseif KRANT
+		base_terrain				GRASS3
+	else
+		base_terrain				GRASS2
+	endif
+	number_of_clumps				8
+	spacing_to_other_terrain_types	1
+	land_percent					9
+	set_scale_by_size
+}
+
+/* SECONDARY TREE_D */
+
+if ZALORIIS
+	create_terrain ROCK_CARBON
+elseif NABOO_FOREST
+	create_terrain TREE_A
+elseif KRANT
+	create_terrain TREE_D
+else
+	create_terrain TREE_C
+endif
+{
+	if ZALORIIS
+		base_terrain				ROCK3
+	elseif NABOO_FOREST
+		base_terrain				DIRT1
+	elseif KRANT
+		base_terrain				GRASS3
+	else
+		base_terrain				GRASS2
+	endif
+	spacing_to_other_terrain_types	3
+	land_percent					1
+	number_of_clumps				3
+	set_avoid_player_start_areas     
+	set_scale_by_groups
+}
+
+/* SECONDARY PATCH */
+
+if ZALORIIS
+	create_terrain SAND_ROCK
+elseif NABOO_FOREST
+	create_terrain GRASS2
+else
+	create_terrain DIRT1
+endif
+{
+	if ZALORIIS
+		base_terrain				ROCK3
+	elseif NABOO_FOREST
+		base_terrain				DIRT1
+	elseif KRANT
+		base_terrain				GRASS3
+	else
+		base_terrain				GRASS2
+	endif
+	number_of_clumps				24
+	spacing_to_other_terrain_types	1
+	land_percent					2
+	set_scale_by_size
+}
+
+/* TERTIARY PATCH */
+
+if ZALORIIS
+	create_terrain SAND1
+elseif NABOO_FOREST
+	create_terrain GRASS3
+else
+	create_terrain SAND_ROCK
+endif
+{
+	if ZALORIIS
+		base_terrain				ROCK3
+	elseif NABOO_FOREST
+		base_terrain				DIRT1
+	elseif KRANT
+		base_terrain				GRASS3
+	else
+		base_terrain				GRASS2
+	endif
+	number_of_clumps				30
+	spacing_to_other_terrain_types	1
+	land_percent					2
+	set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+create_object UNIT-WORKER
+{
+	set_place_for_every_player
+	min_distance_group_placement	15
+}
+
+create_object OBJ-HOLOCRON
+{
+	number_of_objects					5
+	min_distance_to_players				25
+	temp_min_distance_group_placement	20
+}
+
+/* SPECIAL STUFF FOR TERMINATE */
+
+if TERMINATE
+	create_object UNIT-COMMANDER
+	{
+		set_place_for_every_player
+		min_distance_to_players		25
+	}
+endif
+
+/* NEAR FORAGE BUSHES */
+
+/* normally Zaloriis would not get bushes... */
+create_object OBJ-FORAGE
+{
+	number_of_objects				6
+	group_placement_radius			3
+	set_tight_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	6
+}
+
+/* BAA BAA */
+
+if FOODB1
+else
+	if ZALORIIS
+		create_object ANIMAL-BANTHA
+	else
+		create_object ANIMAL-NERF
+	endif
+	{
+		if FOODB2
+			number_of_objects			2
+		elseif FOODB4
+			number_of_objects			8
+		else
+			number_of_objects			4
+		endif
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_group_placement	5
+	}
+
+	if ZALORIIS
+		create_object ANIMAL-BANTHA
+	else
+		create_object ANIMAL-NERF
+	endif
+	{
+		if FOODB2
+			number_of_objects			1
+		elseif FOODB4
+			number_of_objects			4
+		else
+			number_of_objects			2
+		endif
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_group_placement	5
+	}
+
+	if ZALORIIS
+		create_object ANIMAL-BANTHA
+	else
+		create_object ANIMAL-NERF
+	endif
+	{
+		if FOODB2
+			number_of_objects			1
+		elseif FOODB4
+			number_of_objects			4
+		else
+			number_of_objects			2
+		endif
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_group_placement	5
+	}
+endif
+
+if FOODD1
+else
+	if ZALORIIS
+		create_object ANIMAL-EOPIE
+	elseif KRANT
+		create_object ANIMAL-KAADU
+	else
+		start_random
+			percent_chance 50
+			create_object ANIMAL-EOPIE
+			percent_chance 50
+			create_object ANIMAL-KAADU
+		end_random
+	endif
+	{
+		if FOODD2
+			number_of_objects			3
+		elseif FOODD4
+			number_of_objects			12
+		else
+			number_of_objects			6
+		endif
+		group_variance					2
+		group_placement_radius			3
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_group_placement	4
+	}
+endif
+
+if FOODC1
+else
+	if ZALORIIS
+		start_random
+			percent_chance 50
+			create_object ANIMAL-DEWBACK
+			percent_chance 50
+			create_object ANIMAL-RONTO
+		end_random
+	elseif KRANT
+		create_object ANIMAL-RONTO
+	else
+		start_random
+			percent_chance 50
+			create_object ANIMAL-DEWBACK
+			percent_chance 50
+			create_object ANIMAL-FALUMPASET
+		end_random
+	endif
+	{
+		if FOODC2
+			number_of_objects		1
+		elseif FOODC4
+			number_of_objects		4
+		else
+			number_of_objects		2
+		endif
+		set_loose_grouping  
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_to_players		16
+		max_distance_to_players		22
+	}
+
+	if ZALORIIS
+		start_random
+			percent_chance 50
+			create_object ANIMAL-DEWBACK
+			percent_chance 50
+			create_object ANIMAL-RONTO
+		end_random
+	elseif KRANT
+		create_object ANIMAL-RONTO
+	else
+		start_random
+			percent_chance 50
+			create_object ANIMAL-DEWBACK
+			percent_chance 50
+			create_object ANIMAL-FALUMPASET
+		end_random
+	endif
+	{
+		if FOODC2
+			number_of_objects		1
+		elseif FOODC4
+			number_of_objects		2
+		else
+			number_of_objects		1
+		endif
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_to_players		16
+		max_distance_to_players		22
+	}
+endif
+
+/* NEAR NOVA */
+
+create_object OBJ-NOVA
+{
+	number_of_objects				6
+	group_placement_radius			3
+	set_tight_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	11
+	max_distance_to_other_zones		7
+}
+
+/* FAR NOVA */
+
+create_object OBJ-NOVA
+{
+	number_of_objects				6
+	group_placement_radius			3
+	set_tight_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	7
+	max_distance_to_other_zones		7
+}
+
+/* NEAR ORE */
+
+create_object OBJ-ORE1
+{
+	number_of_objects				6
+	group_placement_radius			2 
+	set_tight_grouping 
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	7
+	max_distance_to_other_zones		7
+}
+
+/* FAR ORE */
+
+create_object OBJ-ORE1
+{
+	number_of_objects				6
+	group_placement_radius			2
+	set_tight_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	7
+}
+
+/* RESOURCES BY NUMBER OF PLAYERS */
+
+create_object OBJ-ORE1
+{
+	number_of_groups				1
+	number_of_objects				6
+	group_placement_radius			2
+	set_tight_grouping
+	set_gaia_object_only
+	set_scaling_to_player_number
+	min_distance_group_placement	7
+}
+
+create_object OBJ-NOVA
+{
+	number_of_groups				1    
+	number_of_objects				6
+	group_placement_radius			2
+	set_tight_grouping
+	set_gaia_object_only
+	set_scaling_to_player_number
+	min_distance_group_placement	7
+}
+
+/* RESOURCES BY MAP */
+
+if FOODA1
+else
+	if LARGE_MAP
+		create_object OBJ-FORAGE
+		{
+			number_of_groups				1    
+			if FOODA2
+				number_of_objects			2
+			elseif FOODA4
+				number_of_objects			10
+			else
+				number_of_objects			5
+			endif
+			group_placement_radius			3
+			set_tight_grouping
+			set_gaia_object_only
+			min_distance_to_players			40
+			max_distance_to_players			120
+			min_distance_group_placement	7
+		}
+	endif
+
+	if HUGE_MAP
+		create_object OBJ-FORAGE
+		{
+			number_of_groups				2    
+			if FOODA2
+				number_of_objects			2
+			elseif FOODA4
+				number_of_objects			10
+			else
+				number_of_objects			5
+			endif
+			group_placement_radius			3
+			set_tight_grouping
+			set_gaia_object_only
+			min_distance_to_players			40
+			max_distance_to_players			120
+			min_distance_group_placement	7
+		}
+	endif
+
+	if GIGANTIC_MAP
+		create_object OBJ-FORAGE
+		{
+			number_of_groups				3
+			if FOODA2
+				number_of_objects			2
+			elseif FOODA4
+				number_of_objects			10
+			else
+				number_of_objects			5
+			endif
+			group_placement_radius			3
+			set_tight_grouping
+			set_gaia_object_only
+			min_distance_to_players			40
+			max_distance_to_players			120
+			min_distance_group_placement	7
+		}
+	endif
+endif
+
+if LARGE_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				1    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	7
+	}
+endif
+
+if HUGE_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				2    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	7
+	}
+endif
+
+if GIGANTIC_MAP
+	create_object OBJ-ORE1
+	{
+		number_of_groups				3    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	7
+	}
+endif
+
+if SMALL_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				1    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	9
+	}
+endif
+
+if MEDIUM_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				2    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	9
+	}
+endif
+
+if LARGE_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				3    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	9
+	}
+endif
+
+if HUGE_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				4    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	9
+	}
+endif
+
+if GIGANTIC_MAP
+	create_object OBJ-NOVA
+	{
+		number_of_groups				5    
+		number_of_objects				6
+		group_placement_radius			2
+		set_tight_grouping
+		set_gaia_object_only
+		min_distance_to_players			40
+		max_distance_to_players			120
+		min_distance_group_placement	9
+	}
+endif
+
+if ZALORIIS
+else
+	create_object ANIMAL-IBBOT
+	{
+		number_of_objects         6
+		set_scaling_to_map_size
+	}
+endif
+
+/* BALANCING FISH - WAS 40 */
+
+create_object OBJ-SEAFOODC
+{
+  number_of_objects                   5
+  set_scaling_to_map_size
+  set_gaia_object_only
+  max_distance_to_other_zones         4
+}
+create_object OBJ-SEAFOODD
+{
+  number_of_objects                   10
+  set_scaling_to_map_size
+  set_gaia_object_only
+  max_distance_to_other_zones         4
+}
+create_object OBJ-SEAFOODB
+{
+  number_of_objects                   10
+  set_scaling_to_map_size
+  set_gaia_object_only
+  max_distance_to_other_zones         4
+} 
+
+create_object OBJ-SEAFOOD2
+{
+  number_of_objects                   25
+  set_scaling_to_map_size
+  min_distance_group_placement         3
+  set_gaia_object_only
+}
+
+create_object OBJ-SEAFOODA
+{
+  number_of_groups                      5
+  number_of_objects                     1
+  set_scaling_to_map_size
+  set_gaia_object_only
+  min_distance_group_placement          10
+  max_distance_to_other_zones           7
+} 
+
+create_object OBJ-SEAFOODB
+{
+  number_of_groups                      5
+  number_of_objects                     1
+  set_scaling_to_map_size
+  set_gaia_object_only
+  min_distance_group_placement          10
+  max_distance_to_other_zones           7
+} 
+
+if FOODD1
+else
+	if ZALORIIS
+		create_object ANIMAL-EOPIE
+	elseif KRANT
+		create_object ANIMAL-KAADU
+	else
+		start_random
+			percent_chance 50
+			create_object ANIMAL-EOPIE
+			percent_chance 50
+			create_object ANIMAL-KAADU
+		end_random
+	endif
+	{
+		if FOODD2
+			number_of_objects			1
+		elseif FOODD4
+			number_of_objects			4
+		else
+			number_of_objects			2
+		endif
+		number_of_groups				2
+		set_loose_grouping
+		set_gaia_object_only
+		set_place_for_every_player
+		min_distance_to_players			35
+		min_distance_group_placement	5
+	}
+endif
+
+if ZALORIIS
+	create_object OBJ-TREE_F
+elseif NABOO_FOREST
+	create_object OBJ-TREE_A
+elseif KRANT
+	create_object OBJ-TREE_D
+else
+	create_object OBJ-TREE_C
+endif
+{
+	number_of_objects          30
+	set_gaia_object_only
+	set_scaling_to_map_size
+}
+
+/* ****************************************************** */
+
+<ELEVATION_GENERATION>
+
+create_elevation        7
+{
+	if ZALORIIS
+		base_terrain        ROCK3
+	elseif NABOO_FOREST
+		base_terrain        DIRT1
+	elseif KRANT
+		base_terrain        GRASS3
+	else
+		base_terrain        GRASS2
+	endif
+	number_of_clumps 		14
+	number_of_tiles 		2000
+	set_scale_by_groups
+	set_scale_by_size           
+}
+
+/* ****************************************************** */
+<CONNECTION_GENERATION>
+create_connect_all_players_land
+{
+	replace_terrain WATER_SHALLOW   WATER_SWAMP
+	replace_terrain WATER_ROUGH     WATER_SWAMP
+	replace_terrain WATER_DEEP		WATER_SWAMP
+
+	terrain_cost    WATER_SHALLOW   7
+	terrain_cost    WATER_ROUGH     9
+	terrain_cost    WATER_DEEP		15
+	terrain_cost    TREE_A			7
+	terrain_cost    TREE_C			7
+	terrain_cost    TREE_D			7
+	terrain_cost    TREE_F			7
+	terrain_cost    ROCK_CARBON		7
+	terrain_cost    WATER_SWAMP		3
+	terrain_cost    GRASS2			2
+	terrain_cost    GRASS3			2
+	terrain_cost    DIRT1			2
+	terrain_cost    SAND_ROCK		2
+	terrain_cost    ROCK3			2
+	terrain_cost    SAND1			2
+	terrain_cost    SAND2			2
+	terrain_cost    SHORE			7
+
+	terrain_size    WATER_SHALLOW	2       1
+	terrain_size    WATER_ROUGH		2       1
+	terrain_size    WATER_DEEP		2       1  
+	terrain_size    GRASS2			0       0
+	terrain_size    GRASS3			0       0
+	terrain_size    DIRT1			0       0
+	terrain_size    SAND_ROCK		0       0
+	terrain_size    SAND1			0       0
+	terrain_size    SAND2			0       0
+	terrain_size    ROCK3			0       0
+	terrain_size    TREE_A			0       0
+	terrain_size    TREE_C			0       0
+	terrain_size    TREE_D			0       0
+	terrain_size    TREE_F			0       0
+	terrain_size    ROCK_CARBON		0       0
+	terrain_size    SAND1		0       0
+}
+

@@ -1,0 +1,296 @@
+#include_drs random_map.def 54000
+
+/* ****************************************************** */
+<PLAYER_SETUP>
+random_placement
+
+/* ****************************************************** */
+<LAND_GENERATION>
+
+#define TUNDRA
+
+start_random
+        percent_chance 33
+                #define NABOO_FOREST
+        percent_chance 33
+                #define KASHYYYK
+        percent_chance 34
+                #define ENDOR
+end_random
+
+base_terrain WATER_SHALLOW
+
+create_player_lands 
+{ 
+        terrain_type            SNOW1
+        land_percent            80
+        base_size               15
+        border_fuzziness        5
+        start_random
+                percent_chance  50
+                        left_border     12
+                        right_border    12
+                percent_chance 50
+                        top_border      12
+                        bottom_border   12
+        end_random
+}
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_SHALLOW
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1
+        land_percent                    10
+}
+
+create_terrain WATER_DEEP
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                8
+        spacing_to_other_terrain_types  3
+        land_percent                    5
+}
+
+create_terrain WATER_ROUGH
+{
+        base_terrain                    WATER_DEEP
+        number_of_clumps                5
+        spacing_to_other_terrain_types  1
+        land_percent                    1
+}
+
+create_terrain WATER_SHALLOW
+{
+        base_terrain                    WATER_ROUGH
+        number_of_clumps                5
+        spacing_to_other_terrain_types  1
+        land_percent                    10
+}
+
+create_terrain ICE1
+{
+        base_terrain                    WATER_SHALLOW
+        land_percent                    2
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1
+        set_flat_terrain_only     
+}
+
+/* FROZEN LAKES */
+create_terrain ICE1 
+{
+        base_terrain                    SNOW1
+        land_percent                    4
+        number_of_clumps                1
+        spacing_to_other_terrain_types  1
+        set_avoid_player_start_areas
+        set_flat_terrain_only     
+}
+
+create_terrain ICE1
+{
+        base_terrain                    SNOW1
+        land_percent                    1
+        number_of_clumps                1
+        spacing_to_other_terrain_types  1
+        set_avoid_player_start_areas    
+        set_flat_terrain_only     
+}
+
+create_terrain ICE1
+{
+        base_terrain                    SNOW1
+        land_percent                    1
+        number_of_clumps                1
+        spacing_to_other_terrain_types  1
+        set_avoid_player_start_areas
+        set_flat_terrain_only     
+}
+
+/* PRIMARY CARBON */
+create_terrain TREE_E
+{
+        base_terrain                    SNOW1
+        spacing_to_other_terrain_types  5
+        land_percent                    12
+        number_of_clumps                8
+        set_avoid_player_start_areas     
+        set_scale_by_groups
+}
+
+create_terrain TREE_E
+{
+        base_terrain                    SNOW1
+        spacing_to_other_terrain_types  5
+        land_percent                    5
+        number_of_clumps                20
+        set_avoid_player_start_areas     
+        set_scale_by_groups
+}
+
+/* PRIMARY PATCH */
+create_terrain SNOW_DIRT
+{
+        base_terrain                    SNOW1
+        number_of_clumps                20
+        spacing_to_other_terrain_types  1
+        land_percent                    9
+        set_scale_by_size               
+}
+
+/* SECONDARY PATCH */
+create_terrain SNOW_DIRT
+{
+        base_terrain                    SNOW1
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1
+        land_percent                    5
+        set_scale_by_size
+}
+
+/* SECONDARY PATCH */
+create_terrain SNOW_ROCK
+{
+        base_terrain                    SNOW_DIRT
+        number_of_clumps                24
+        spacing_to_other_terrain_types  1
+        land_percent                    2
+        set_scale_by_size
+}
+
+/* TERTIARY PATCH */
+
+create_terrain SNOW_ROCK
+{
+        base_terrain                    SNOW_DIRT
+        number_of_clumps                10
+        spacing_to_other_terrain_types  1
+        land_percent                    2
+        set_scale_by_size
+}
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+/* PLAYER START OBJECTS */
+#include_drs GBG_land_resources.inc 54103
+
+create_object ANIMAL-OPEESEAKILLER
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+create_object ANIMAL-COLOCLAWFISH
+{
+        number_of_objects               1
+        set_scaling_to_player_number
+        min_distance_to_players         40
+        max_distance_to_players         60
+}
+
+if FOODD1
+else
+        start_random
+                percent_chance 50
+                        create_object ANIMAL-KAADU
+                percent_chance 50
+                        create_object ANIMAL-EOPIE
+        end_random
+        {
+                if FOODD2
+                        number_of_objects       2
+                else
+                        number_of_objects       4
+                endif
+                group_variance                  1
+                set_loose_grouping
+                set_gaia_object_only
+                set_place_for_every_player
+                min_distance_to_players         19
+        }
+endif
+
+create_object ANIMAL-TUSKCAT
+{
+        number_of_objects                       1
+        number_of_groups                        5
+        set_loose_grouping
+        set_scaling_to_map_size
+        min_distance_to_players                 25
+}
+
+create_object OBJ-TREE_E
+{
+        number_of_objects       30
+        set_scaling_to_map_size
+        min_distance_to_players 8
+}
+
+create_object OBJ-SEAFOOD2
+{
+        number_of_objects               8
+        min_distance_group_placement    3
+        set_scaling_to_map_size
+}
+
+create_object OBJ-SEAFOODD
+{
+        number_of_objects               15
+        set_scaling_to_map_size
+        max_distance_to_other_zones     4
+}
+
+create_object OBJ-SEAFOODA
+{
+        number_of_groups                3
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones     7
+} 
+
+create_object OBJ-SEAFOODB
+{
+        number_of_groups                2
+        number_of_objects               1
+        set_scaling_to_map_size
+        min_distance_group_placement    10 
+        max_distance_to_other_zones     7
+} 
+
+create_object ANIMAL-CU-PA
+{
+        number_of_objects               3
+        number_of_groups                4
+        set_loose_grouping
+        set_scaling_to_map_size
+        min_distance_to_players         10
+}
+
+/* ****************************************************** */
+
+<ELEVATION_GENERATION>
+create_elevation        5
+{
+        base_terrain            SNOW1
+        number_of_clumps        20
+        number_of_tiles         2000
+        set_scale_by_groups
+        set_scale_by_size           
+}
+
+/* ****************************************************** */
+<CLIFF_GENERATION>
+min_number_of_cliffs 5
+max_number_of_cliffs 10
+min_length_of_cliff  3
+max_length_of_cliff  7
+
+
